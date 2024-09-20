@@ -3,8 +3,11 @@ import scipy as sp
 
 punkte=np.array[((0,10),(10,0))]
 
-print(punkte[0,1])
+def vec_sub(minuend, subtrahend, list_name):
+    result = list_name[minuend] - list_name[subtrahend]
+    return(result)
 
+print(vec_sub((1,0),(0,0),punkte))
 
 '''
 Vektor-Errechnung:
