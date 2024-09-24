@@ -22,7 +22,6 @@ def sort_arr():
     iteration = 1  # variable to control the amount of iterations in the cycle
     def_arr = arr[:2**iteration]
     print(def_arr)
-    #iteration
 
 sort_arr()
 
