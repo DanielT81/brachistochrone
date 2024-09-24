@@ -15,7 +15,6 @@ arr = np.zeros([ATP,4], dtype=object) #the array containing the information abou
 arr[0] = np.array([0, [0, 10], [10,-10], [sqrt(0.5),sqrt(0.5)]], dtype=object)
 arr[ATP-1] = np.array([ATP, [10, 0], "non-existent", "non-existent"], dtype=object)
 
-punkte=np.array([[[0,10],[10,-10]],[[-sqrt(0.5),0],[-sqrt(0.5),0]] , [[10,0],[0,0]]])
 
 
 def normvec(defvector):
