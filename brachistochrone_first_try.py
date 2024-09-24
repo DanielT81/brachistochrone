@@ -1,3 +1,5 @@
+#where to continue: sort_arr()
+
 import numpy as np
 from math import sin, cos, pi, sqrt
 import scipy as sp
@@ -13,9 +15,19 @@ arr = np.zeros([ATP,4], dtype=object) #the array containing the information abou
 #arr is sorted [[index of the point (being counted from 1 onwards)],[coordinates of the point],[vector to the next set up point],[normal-vector to the vector to the next point]]
 
 arr[0] = np.array([0, [0, 10], [10,-10], [sqrt(0.5),sqrt(0.5)]], dtype=object)
-arr[ATP-1] = np.array([ATP, [10, 0], "non-existent", "non-existent"], dtype=object)
+arr[1] = np.array([1, [10, 0], "non-existent", "non-existent"], dtype=object)
 
 
+def sort_arr():
+    iteration = 1  # variable to control the amount of iterations in the cycle
+    def_arr = arr[:2**iteration]
+    print(def_arr)
+    #iteration
+
+sort_arr()
+
+while AIP <= AIP:
+    break
 
 def normvec(defvector):
     defother = defvector / np.linalg.norm(defvector)
