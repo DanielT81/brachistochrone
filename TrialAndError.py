@@ -22,3 +22,16 @@ else:
 
 print("Sortierter Array:")
 print(sorted_array)
+
+
+
+array = np.array([
+                  [5, [1, 2],  [1, 1],  [4, 5]],
+                  [0, [2, 3],  [7, 8],  [1, 1]],
+                  [8, [6, 7],  [3, 4],  [2, 3]],
+                  [3, [9, 0],  [8, 9],  [3, 4]]], dtype=object)
+
+itera=iter(array)
+for i in itera:
+    print(i[1][0])
+
