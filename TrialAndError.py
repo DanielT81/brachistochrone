@@ -10,5 +10,6 @@ array = np.array([[1, [5, 1], [2, 1], [0, 0]],
                        [7, [-3, 32], [234, 3], [69, 2]],
                        [8, [72, 456], [03.5, -69], [2, 3]]], dtype=object)
 
+
 array_sorted = array[np.argsort(array[:, [1][0]])]
 print(array_sorted)
