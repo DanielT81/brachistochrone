@@ -11,7 +11,8 @@ for i in range(1000000):
 
 AIP = 20 #amount of iterations to create new points
 ATP = 2**AIP + 1 #amount of total points in the system
-arr = np.zeros([ATP,4], dtype=object) #the array containing the information about the points, vectors and orthogonal vectors
+arr = np.zeros([ATP,4], dtype=object)
+#the array containing the information about the points, vectors and orthogonal vectors
 #arr is sorted [[index of the point (being counted from 1 onwards)],[coordinates of the point],[vector to the next set up point],[normal-vector to the vector to the next point]]
 
 arr[0] = np.array([0, [0, 10], [10,-10], [sqrt(0.5),sqrt(0.5)]], dtype=object)
@@ -19,9 +20,7 @@ arr[1] = np.array([1, [10, 0], "non-existent", "non-existent"], dtype=object)
 
 
 def sort_arr():
-    iteration = 1  # variable to control the amount of iterations in the cycle
-    def_arr = arr[:2**iteration]
-    print(def_arr)
+    while
 
 sort_arr()
 
