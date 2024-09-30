@@ -23,7 +23,7 @@ arr[1] = np.array([1, [10, 0], "non-existent", "non-existent"], dtype=object)
 
 
 
-print(newpoint(arr[0][1], arr[0][2]))
+#print(newpoint(arr[0][1], arr[0][2]))
 #def sort_arr():
     #while
 #sort_arr()
@@ -34,7 +34,8 @@ def newpoint(point, vec):
     return defpoint
 
 def sort_arr():
-    arr = arr[np.argsort(arr[:, col_index])]
+    arr_sorted = arr[np.argsort(arr[:,[1][0]])]
+    return arr_sorted
 
 def normvec(defvector):
     defnormvec = np.array([float(-defvector[0]),float(defvector[1])]) / float(sqrt((defvector[0])**2 + (defvector[1])**2))
@@ -44,6 +45,8 @@ def vector(minuend, subtrahend):
     result = AA(minuend) - AA(subtrahend)
     return(result)
 
+print(arr)
+print()
 #print(vector([0,1],[1,1],arr))
 
 '''
@@ -52,7 +55,7 @@ for i in range(arr.shape[0]):
     for j in range(arr.shape[1]):
         if isinstance(arr[i, j], list):
             arr[i, j] = np.array(arr[i, j])
-'''
+
 
 #print(np.dot([2,5],[35,5]))
 end_time = time.process_time()
@@ -60,7 +63,7 @@ print(f"Elapsed time: {end_time - start_time} seconds")
 
 
 #print(vector(arr[0][1],arr[1][1]))
-'''
+
 Vektor-Errechnung:
 import numpy as np
 v = np.array(entry1) - np.array(entry2)

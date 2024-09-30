@@ -15,6 +15,8 @@ arr = np.array([[1, [5, 1], [2, 1], [0, 0]],
                        [8, [72, 456], [03.5, -69], [2, 3]]], dtype=object)
 
 #to access a coordinate in the array
-for i in iter(arr):
+#for i in iter(arr):
     #print(i[0]) #index of the array
     #print(i[1][0]) #first entry of the second part if the array
+#def sort():
+    #array_sorted = array[np.argsort(array[:,[1][0]])]
