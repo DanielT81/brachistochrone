@@ -1,5 +1,5 @@
 import numpy as np
-
+from numpy import asarray as AA
 
 array = np.array([[1, [5, 1], [2, 1], [0, 0]],
                        [2, [0, 2], [5, 7], [1, 6]],
@@ -10,6 +10,12 @@ array = np.array([[1, [5, 1], [2, 1], [0, 0]],
                        [7, [-3, 32], [234, 3], [69, 2]],
                        [8, [72, 456], [03.5, -69], [2, 3]]], dtype=object)
 
+def vector(minuend, subtrahend):
+    result = AA(minuend) - AA(subtrahend)
+    return(result)
 
-array_sorted = array[np.argsort(array[:, [1][0]])]
-print(array_sorted)
+
+
+
+#array_sorted = array[np.argsort(array[:, [1][0]])]
+print(vector(array[0][1], array[1][0]))
