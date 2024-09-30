@@ -30,8 +30,7 @@ while AIP <= AIP:
     break
 
 def normvec(defvector):
-    defother = defvector / np.linalg.norm(defvector)
-    defnormvec = defvector * np.dot(defvector, defother)[:, None] * defother
+    defnormvec = np.array([float(-defvector[0]),float(defvector[1])]) / float(sqrt((defvector[0])**2 + (defvector[1])**2))
     return defnormvec
 
 def vector(minuend, subtrahend):

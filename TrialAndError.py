@@ -1,5 +1,6 @@
 import numpy as np
 from numpy import asarray as AA
+from math import sqrt
 
 array = np.array([[1, [5, 1], [2, 1], [0, 0]],
                        [2, [0, 2], [5, 7], [1, 6]],
@@ -10,12 +11,12 @@ array = np.array([[1, [5, 1], [2, 1], [0, 0]],
                        [7, [-3, 32], [234, 3], [69, 2]],
                        [8, [72, 456], [03.5, -69], [2, 3]]], dtype=object)
 
-def vector(minuend, subtrahend):
-    result = AA(minuend) - AA(subtrahend)
-    return(result)
+def normvec(defvector):
+    defnormvec = np.array([float(-defvector[0]),float(defvector[1])]) / float(sqrt((defvector[0])**2 + (defvector[1])**2))
+    return defnormvec
 
 
 
 
 #array_sorted = array[np.argsort(array[:, [1][0]])]
-print(vector(array[0][1], array[1][0]))
+print(normvec(array[2][1]))
