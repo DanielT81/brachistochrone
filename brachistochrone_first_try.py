@@ -9,25 +9,32 @@ start_time = time.process_time() #to track the computation-time
 for i in range(1000000):
     pass
 
-
+index_number = 2
 AIP = 20 #amount of iterations to create new points
 ATP = 2**AIP + 1 #amount of total points in the system
 arr = np.zeros([ATP,4], dtype=object)
 #the array containing the information about the points, vectors and orthogonal vectors
 #arr is sorted [[index of the point (being counted from 1 onwards)],[coordinates of the point],[vector to the next set up point],[normal-vector to the vector to the next point]]
-arrT = np.array([])
+arrT = np.array([[]])
+arrT[0] = [1]
 
 arr[0] = np.array([0, [0, 10], [10,-10], [sqrt(0.5),sqrt(0.5)]], dtype=object)
 arr[1] = np.array([1, [10, 0], "non-existent", "non-existent"], dtype=object)
 
 
+
+print(newpoint(arr[0][1], arr[0][2]))
 #def sort_arr():
     #while
-
 #sort_arr()
+#while AIP <= AIP:
+    #break
+def newpoint(point, vec):
+    defpoint = AA(point) + 0.5*AA(vec)
+    return defpoint
 
-while AIP <= AIP:
-    break
+def sort_arr():
+    arr = arr[np.argsort(arr[:, col_index])]
 
 def normvec(defvector):
     defnormvec = np.array([float(-defvector[0]),float(defvector[1])]) / float(sqrt((defvector[0])**2 + (defvector[1])**2))
@@ -52,7 +59,7 @@ end_time = time.process_time()
 print(f"Elapsed time: {end_time - start_time} seconds")
 
 
-print(vector(arr[0][1],arr[1][1]))
+#print(vector(arr[0][1],arr[1][1]))
 '''
 Vektor-Errechnung:
 import numpy as np
