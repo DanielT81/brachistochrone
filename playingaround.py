@@ -1,5 +1,6 @@
 import multiprocessing as mp
 import math
+from math import sqrt
 import sys
 import numpy as np
 
@@ -22,10 +23,10 @@ if __name__ == '__main__':
     results = pool.map(calc_factorial, numbers)
 
     print(results)
+
+
+
 '''
-
-
-
 arr = np.array([[1, [5, 1], [2, 1], [0, 0]],
                        [2, [0, 2], [5, 7], [1, 6]],
                        [3, [8, 6], [9, 34], [4, -7.8]],
@@ -34,6 +35,21 @@ arr = np.array([[1, [5, 1], [2, 1], [0, 0]],
                        [6, [5, -32], [0, 7], [1, 420]],
                        [7, [-3, 32], [234, 3], [69, 2]],
                        [8, [72, 456], [03.5, -69], [2, 3]]], dtype=object)
+array = np.array([[0, [0, 10], [10, -10],[0.7071067811865476, 0.7071067811865476]],[1, [10, 0], 'non-existent', 'non-existent'], [0,[0],0,0], [0,[0],0,0]], dtype=object)
+'''
+ATP = 3
+arr = np.zeros([ATP,4,2], dtype=object)
+print(arr)
+array = [0, [0, 10], [10,-10], [sqrt(0.5),sqrt(0.5)]]
+arr[0][0][0] = array[1]
+#arr[1][0:] = np.array([1, [10, 0], "non-existent", "non-existent"], dtype=object)
+'''
 
+print(arr[:6])
+
+'''
 array_sorted = arr[np.argsort(arr[:,[1][0]])]
-print(array_sorted)
+print('\n'*7, arr[0],"\n"*3,  array)
+'''
+
+
