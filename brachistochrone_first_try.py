@@ -40,7 +40,9 @@ def sort_arr():
             #arr = np.add(arr[np.argsort(arr[:iterations, [1][0]])],np.zeros([ATP-iterations, 4], dtype=object))
             #print(arr[np.argsort(arr[:iterations,[1][0]])])
             break
-        print(arr)
+        break
+    return(arr)
+
 
         #arr_sorted = arr[np.argsort(arr[:,[1]])]
     #return arr_sorted
@@ -53,7 +55,8 @@ def vector(minuend, subtrahend):
     result = AA(minuend) - AA(subtrahend)
     return result
 
-sort_arr()
+print(sort_arr())
+
 #print(sort_arr())
 #print()
 #print(vector([0,1],[1,1],arr))
