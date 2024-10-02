@@ -23,10 +23,9 @@ arr[0] = np.array([1, [10, 0], "non-existent", "non-existent"], dtype=object)
 
 #while AIP <= AIP:
     #break
-def newpoint(point, vec):
+def new_point(point, vec):
     defpoint = AA(point) + 0.5*AA(vec)
     return defpoint
-
 
 def sort_arr():
     iterations = 0
@@ -35,16 +34,14 @@ def sort_arr():
         if arr[iterations, 1] == 0:
             arr[:iterations] = arr[np.argsort(arr[:iterations, [1][0]])]
             break
-            #print(iterations)
         else:
             iterations +=1
-            #print(iterations) #1
 
 
         #arr_sorted = arr[np.argsort(arr[:,[1]])]
     #return arr_sorted
 
-def normvec(defvector):
+def norm_vec(defvector):
     defnormvec = np.array([float(-defvector[0]),float(defvector[1])]) / float(sqrt((defvector[0])**2 + (defvector[1])**2))
     return defnormvec
 
@@ -52,8 +49,9 @@ def vector(minuend, subtrahend):
     result = AA(minuend) - AA(subtrahend)
     return result
 
-sort_arr()
-print(arr)
+def vec_arr():
+    iterations = 0
+print(type(vector([2,4],[-2,5])))
 
 #print(sort_arr())
 #print()

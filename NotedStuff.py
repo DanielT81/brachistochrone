@@ -20,3 +20,7 @@ arr = np.array([[1, [5, 1], [2, 1], [0, 0]],
     #print(i[1][0]) #first entry of the second part if the array
 #def sort():
     #array_sorted = array[np.argsort(array[:,[1][0]])]
+
+
+
+#learn about function find_first()

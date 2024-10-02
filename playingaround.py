@@ -3,6 +3,11 @@ import math
 from math import sqrt
 import sys
 import numpy as np
+#import RNG
+import time
+start_time = time.process_time() #to track the computation-time
+for i in range(1000000):
+    pass
 
 
 '''
@@ -37,25 +42,6 @@ arr = np.array([
                     [7, [-3, 32], [234, 3], [69, 2]],
                     [8, [72, 456], [03.5, -69], [2, 3]]], dtype=object)
 
-
-array = np.array([[0, [0, 10], [10, -10],[0.7071067811865476, 0.7071067811865476]],[1, [10, 0], 'non-existent', 'non-existent'], [0,[0],0,0], [0,[0],0,0]], dtype=object)
-'''
-ATP = 3
-arr = np.zeros([ATP,4,2], dtype=object)
-print(arr)
-array = [0, [0, 10], [10,-10], [sqrt(0.5),sqrt(0.5)]]
-arr[0][0][0] = array[1]
-#arr[1][0:] = np.array([1, [10, 0], "non-existent", "non-existent"], dtype=object)
-'''
-#print(arr[1][0])
-
-print(arr, '\n'*10)
-arr[:5] = arr[np.argsort(arr[:5,[1][0]])]
-print(arr)
-
-'''
-array_sorted = arr[np.argsort(arr[:,[1][0]])]
-print('\n'*7, arr[0],"\n"*3,  array)
-'''
-
+rng = np.random.default_rng()
+new_arr = np.append(rng.uniform(low=0.01, high=10, size=[100_000_000,4]), np.zeros([400_000,4]), axis=0)
 
