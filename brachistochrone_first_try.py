@@ -32,16 +32,13 @@ def sort_arr():
     iterations = 0
     total_iterations = np.size(arr, 0)
     while iterations <= total_iterations:
-        if arr[iterations][1] != 0:
-            iterations+=1
-        else:
-            #print(arr[:iterations], '\n'*10)
-            arr[:iterations] = arr[np.argsort(arr[:iterations,[1][0]])]
-            #arr = np.add(arr[np.argsort(arr[:iterations, [1][0]])],np.zeros([ATP-iterations, 4], dtype=object))
-            #print(arr[np.argsort(arr[:iterations,[1][0]])])
+        if arr[iterations, 1] == 0:
+            arr[:iterations] = arr[np.argsort(arr[:iterations, [1][0]])]
             break
-        break
-    return(arr)
+            #print(iterations)
+        else:
+            iterations +=1
+            #print(iterations) #1
 
 
         #arr_sorted = arr[np.argsort(arr[:,[1]])]
@@ -55,7 +52,8 @@ def vector(minuend, subtrahend):
     result = AA(minuend) - AA(subtrahend)
     return result
 
-print(sort_arr())
+sort_arr()
+print(arr)
 
 #print(sort_arr())
 #print()

@@ -19,7 +19,6 @@ def sort_arr2():
     total_iterations = np.size(arr, 0)
     while iterations <= total_iterations:
         if arr[iterations, 1] == 0:
-            print(arr)
             arr[:iterations] = arr[np.argsort(arr[:iterations, [1][0]])]
             break
             #print(iterations)
