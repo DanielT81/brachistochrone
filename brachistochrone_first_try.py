@@ -9,6 +9,7 @@ start_time = time.process_time() #to track the computation-time
 for i in range(1000000):
     pass
 
+g = 9.81 #acceleration faktor
 index_number = 2
 AIP = 4 #amount of iterations to create new points
 ATP = 2**AIP + 1 #amount of total points in the system
@@ -50,7 +51,7 @@ def vector(minuend, subtrahend):
 
 
     #
-
+def calc_time(start_vel, )
 def vec_arr():
     iterations = 0
 
