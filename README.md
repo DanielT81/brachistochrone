@@ -28,7 +28,8 @@ given arrays: <br>
 5. @norm_vec to the connecting vector<br>
 6. @norm_vec_factor for the normal vector<br>
 7. time taken to get from @1 over @3 + @5*@4 to @2<br>
-8. @4 + @5*@6
+8. end velocity after the calculation
+9. @4 + @5*@6
 
 first row is for the old time that is to beat<br>
 second row is for the new time that has beat<br>
