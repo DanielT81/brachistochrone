@@ -21,15 +21,14 @@ given arrays: <br>
 
 **arrT** | array with the new point currently being optimized <br>
 
-1. index of the point the vector starts from and the index of the point it ends at
-2. point the vector starts from<br>
-3. point the vector goes to<br>
-4. @new_point between @1 and @2<br>
-5. @norm_vec to the connecting vector<br>
-6. @norm_vec_factor for the normal vector<br>
-7. time taken to get from @1 over @3 + @5*@4 to @2<br>
-8. end velocity after the calculation
-9. @4 + @5*@6
+1. point the vector starts from<br>
+2. point the vector goes to<br>
+3. @new_point between @1 and @2<br>
+4. @norm_vec to the connecting vector<br>
+5. @norm_vec_factor for the normal vector<br>
+6. time taken to get from @1 over @3 + @5*@4 to @2<br>
+7. end velocity after the calculation
+8. @3 + @4*@5
 
 first row is for the old time that is to beat<br>
 second row is for the new time that has beat<br>
