@@ -12,7 +12,7 @@ def sqr(var):
 g = 9.81
 def physics(start_vel, def_vec):
     if start_vel > 0:
-        print('the starting velocity doesnt make sense here')
+        print('physics: the starting velocity doesnt make sense here')
         return
     deltaX = def_vec[0]
     deltaY = def_vec[1]
@@ -24,14 +24,15 @@ def physics(start_vel, def_vec):
     t = np.roots([a,b,c])
     #if str(t[0])[len(t[0])] == 'j' or str(t[1])[len(t[1])] == 'j':
     if type(t[0]) == np.complex128 or type(t[1]) == np.complex128:
-        print('problem with the imaginary unity')
+        print('physics: problem with the imaginary unity')
         return
-    print(t)
     t = t[np.argsort(t)]
+    if t[1] < 0:
+        print('physics: both t values are negative')
     print(t)
 
     #print(type(t), '\n' * 5, t)
     return t
 
 
-physics(-100,[-1000,500])
+physics(-100,[10000,-50000])
