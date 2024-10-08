@@ -34,12 +34,12 @@ def new_point(start_point, end_point):
     #
 def sort_arr():
     iterations = 0
-    total_iterations = np.size(new_arr, 0)
+    total_iterations = np.size(arr, 0)
     while iterations <= total_iterations:
-        if new_arr[iterations, 1] != 0.0:
+        if arr[iterations, 1] != 0.0:
             iterations +=1
         else:
-            new_arr[:iterations] = new_arr[np.argsort(new_arr[:iterations, [1][0]])]
+            arr[:iterations] = arr[np.argsort(arr[:iterations, [1][0]])]
             arr_len = iterations
             break
 
@@ -52,24 +52,34 @@ def norm_vec(def_vec):
 
     #
 def physics(start_vel, def_vec):
+    if start_vel > 0:
+        print('physics: the starting velocity doesnt make sense here')
+        return
     deltaX = def_vec[0]
     deltaY = def_vec[1]
     deltaS = sqrt(sqr(deltaX) + sqr(deltaY))
     cos_phi = sqrt(1/(1+sqr(deltaX / deltaY)))
-    a = (-0.5) * g * cos_phi
+    a = ((-0.5) * g * cos_phi * (-deltaY / sqrt(deltaY**2))) #- (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
     b = start_vel
     c = deltaS
-    try:
-        t = np.roots()
-        #t1 = (-start_vel + sqrt(sqr(start_vel) + (2 * g * cos_phi * deltaS))) / (g * cos_phi)
-        #t2 = (-start_vel - sqrt(sqr(start_vel) + (2 * g * cos_phi * deltaS))) / (g * cos_phi)
-        v1 = start_vel + (g * cos_phi) * t1
-        v2 = start_vel + (g * cos_phi) * t2
-        print((-0.5)*g*cos_phi)
-        return AA([t1, t2, v1, v2])
-    except ValueError:
-        1==1
-        print('problem with the imaginary unity')
+    t = np.roots([a,b,c])
+    #if str(t[0])[len(t[0])] == 'j' or str(t[1])[len(t[1])] == 'j':
+    if type(t[0]) == np.complex128 or type(t[1]) == np.complex128:
+        print('physics: problem with the imaginary unity')
+        return
+    t = t[np.argsort(t)]
+    if t[1] < 0:
+        print('physics: both t values are negative')
+        print(t)
+        return
+    if t[0] > 0:
+        print('physics: both t values are positive')
+        print(t)
+        return
+    t_result = t[1]
+    v_result = start_vel + a * cos_phi * t_result
+    print([t_result, v_result])
+    return [t_result, v_result]
 
 
     #
