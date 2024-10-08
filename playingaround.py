@@ -36,7 +36,7 @@ def physics(start_vel, def_vec):
         print(t)
         return
     t_result = t[1]
-    v_result = start_vel + a * t_result
+    v_result = start_vel + a * cos_phi * t_result
     print([t_result, v_result])
     return [t_result, v_result]
 
