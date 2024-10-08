@@ -1,12 +1,39 @@
 import numpy as np
 from math import sin, cos, pi, sqrt, atan
-
+from numpy import asarray as AA
 #from ipython_genutils.testing.decorators import skipif
 
 
 def sqr(var):
     return var**2
 
+
+    #
+def vector(minuend, subtrahend):
+    result = AA(minuend) - AA(subtrahend)
+    return result
+
+
+    #
+def new_point(start_point, end_point):
+    def_point = AA(start_point) + 0.5*AA(vector(end_point, start_point))
+    return def_point
+
+
+    #
+def sort_arr():
+    iterations = 0
+    total_iterations = np.size(new_arr, 0)
+    while iterations <= total_iterations:
+        if new_arr[iterations, 1] != 0.0:
+            iterations +=1
+        else:
+            new_arr[:iterations] = new_arr[np.argsort(new_arr[:iterations, [1][0]])]
+            arr_len = iterations
+            break
+
+def optimizer(p1,p2):
+    new_point = new_point(p2, p1)
 
     #
 g = 9.81
@@ -43,6 +70,8 @@ def physics(start_vel, def_vec):
 
 
 
-
-
+print(new_point([0,10],[10,0]))
+'''
 physics(0,[10,-10])
+physics(0,[-10,10])
+'''

@@ -27,7 +27,7 @@ def vector(minuend, subtrahend):
 
     #
 def new_point(start_point, end_point):
-    def_point = AA(start_point) + 0.5*AA(vector(start_point, end_point))
+    def_point = AA(start_point) + 0.5*AA(vector(end_point, start_point))
     return def_point
 
 
