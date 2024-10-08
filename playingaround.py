@@ -21,6 +21,12 @@ def new_point(start_point, end_point):
 
 
     #
+def norm_vec(def_vec):
+    def_norm_vec = np.array([float(-def_vec[0]),float(def_vec[1])]) / float(sqrt(sqr(def_vec[0]) + sqr(def_vec[1])))
+    return def_norm_vec
+
+
+    #
 def sort_arr():
     iterations = 0
     total_iterations = np.size(new_arr, 0)
@@ -32,10 +38,15 @@ def sort_arr():
             arr_len = iterations
             break
 
-def optimizer(p1,p2):
-    new_point = new_point(p2, p1)
 
     #
+def optimizer(p1,p2):
+    new_point = new_point(p2, p1)
+    def_vec = vector(p2, p1)
+    norm_vec = norm_vec(def_vec)
+
+    #
+
 g = 9.81
 def physics(start_vel, def_vec):
     if start_vel > 0:
