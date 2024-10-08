@@ -1,7 +1,7 @@
 import numpy as np
 from math import sin, cos, pi, sqrt, atan
 
-from ipython_genutils.testing.decorators import skipif
+#from ipython_genutils.testing.decorators import skipif
 
 
 def sqr(var):
@@ -29,10 +29,20 @@ def physics(start_vel, def_vec):
     t = t[np.argsort(t)]
     if t[1] < 0:
         print('physics: both t values are negative')
-    print(t)
+        print(t)
+        return
+    if t[0] > 0:
+        print('physics: both t values are positive')
+        print(t)
+        return
+    t_result = t[1]
+    v_result = start_vel + a * t_result
+    print([t_result, v_result])
+    return [t_result, v_result]
 
-    #print(type(t), '\n' * 5, t)
-    return t
 
 
-physics(-100,[10000,-50000])
+
+
+
+physics(0,[10,-10])
