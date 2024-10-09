@@ -104,8 +104,8 @@ arrT = np.zeros([3,8], dtype=object) #read the README to get the structure
 
 arr[0] = [0, 10] #setting the boundary conditions
 arr[1] = [10, 0] #setting the boundary conditions
-arrT[0] = [arr[0],      arr[1],      new_point(arr[0], arr[1]),      norm_vec(vector(arr[0],arr[1])),            0,            0,            0,           0] #setting the boundary condition so there is no need for an annoying if clause
-#     starting point  end point      new point between the two       normal vector to the vector           normal vector   time_taken  end_velocity   newly created point 'new_point + norm_vec * norm_vec_factor'
+arrT[0] = [arr[0],      arr[1],      new_point(arr[0], arr[1]),      norm_vec(vector(arr[0],arr[1])),         0,       physics(arr[0], arr[1])[0], physics(arr[0], arr[1])[1],   new_point(arr[0],arr[1])] #setting the boundary condition so there is no need for an annoying if clause
+#     starting point  end point      new point between the two       normal vector to the vector        norm_vec_factor       time_taken                end_velocity   newly created point 'new_point + norm_vec * norm_vec_factor'
 #print(physics(arrT[0,6] + 1, vector(arrT[0,0], arrT[0,1])))
 print(physics(-0, [10, -10]))
 #print(vector(arrT[0,0], arrT[0,1]))
