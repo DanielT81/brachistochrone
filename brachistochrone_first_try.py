@@ -51,6 +51,16 @@ def norm_vec(def_vec):
 
 
     #
+def optimizer(p1,p2):
+    new_point = new_point(p2, p1)
+    def_vec = vector(p2, p1)
+    norm_vec = norm_vec(def_vec)
+    norm_vec_fac = 0
+    start_vel = arrT[7]
+    arrT[0] = [p1, p2, new_point, norm_vec, norm_vec_fac, physics()]]
+    
+    
+    #
 def physics(start_vel, def_vec):
     if start_vel > 0:
         print('physics: the starting velocity doesnt make sense here')
@@ -90,7 +100,7 @@ def vec_arr():
 
 
 arr = np.zeros([ATP,2]) #array with all the points and given indices to track manually
-arrT = np.zeros([2,8], dtype=object) #read the README to get the structure
+arrT = np.zeros([3,8], dtype=object) #read the README to get the structure
 
 arr[0] = [0, 10] #setting the boundary conditions
 arr[1] = [10, 0] #setting the boundary conditions
