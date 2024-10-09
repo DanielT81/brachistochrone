@@ -31,7 +31,8 @@ given arrays: <br>
 8. @3 + @4*@5
 
 first row is for the old time that is to beat<br>
-second row is for the new time that has beat<br>
+second row is for the new old time that is to beat beat<br>
+third row is for the new time that has to beat<br>
 
 <br><br><br><br>
 given functions:\
