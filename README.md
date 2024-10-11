@@ -4,11 +4,11 @@ brachistochrone replication<br><br>
 
 work in progress<br><br>
 
-The brachistochrone is a problem already having been precisly analytically solved revolving about 2 points in a conservative field. The goal is to optimize a curve connecting the two points based on the time a objects takes to get from one point to the other accelerated by the conservative field.<br>
+The brachistochrone is a problem already having been precisley analytically solved revolving about 2 points in a conservative field. The goal is to optimize a curve connecting the two points based on the time an objects takes to get from one point to the other accelerated by the conservative field.<br>
 
-Current idea is to devide the hypothetical into connected vectors and locally optimizing those. Problem with that being that there is no prove yet for the local optimization being part of the global optimization. <br>
+Current idea is to divide the hypothetical into connected vectors and locally optimizing those. Problem with that being that there is no prove yet for the local optimization being part of the global optimization. <br>
 
-Other plan would be to already having the direction orthogonal to the forces field lines subdevided and optimizing those with respect to speed and time. Still faces issues regarding grading of speed gained to time taken for sub-part on each vector.<br>
+Other plan would be to already having the direction orthogonal to the forces field lines subdivided and optimizing those with respect to speed and time. Still faces issues regarding grading of speed gained to time taken for sub-part on each vector.<br>
 
 <br><br>
 pseudo code for optimisation:<br>
@@ -31,7 +31,7 @@ given arrays: <br>
 8. @3 + @4*@5
 
 first row is for the old time that is to beat<br>
-second row is for the new old time that is to beat beat<br>
+second row is for the new old time that is to beat<br>
 third row is for the new time that has to beat<br>
 
 <br><br><br><br>
