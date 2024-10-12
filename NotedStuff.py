@@ -1,26 +1,24 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
-array = np.array([[1, [5, 1], [2, 1], [3, 4]],
-                          [2, [0, 2], [5, 7], [1, 1]],
-                          [3, [8, 6], [9, 3], [4, 2]],
-                          [4, [3, 9], [7, 8], [2, 3]]], dtype=object)
+# Datenpunkte
+#x = [1, 2, 3, 4, 5]
+#y = [2, 3, 5, 7, 11]
+#[x,y] = [10, 8.53553391, 0], [0, 8.53553391, 10]
+[x,y] = [10, 1.4651732, 0], [0, 1.4651732, 10]
+# Plotten der Punkte mit 'scatter'
+plt.scatter(x, y, color='red', label='Punkte')
 
-arr = np.array([[1, [5, 1], [2, 1], [0, 0]],
-                       [2, [0, 2], [5, 7], [1, 6]],
-                       [3, [8, 6], [9, 34], [4, -7.8]],
-                       [4, [3, 8], [-2, 8], [2, 56.8]],
-                       [5, [1, -6], [0, 1], [3, -6]],
-                       [6, [5, -32], [0, 7], [1, 420]],
-                       [7, [-3, 32], [234, 3], [69, 2]],
-                       [8, [72, 456], [03.5, -69], [2, 3]]], dtype=object)
+# Zeichnen der Linien zwischen den Punkten mit 'plot'
+plt.plot(x, y, color='blue', label='Linie')
 
-#to access a coordinate in the array
-#for i in iter(arr):
-    #print(i[0]) #index of the array
-    #print(i[1][0]) #first entry of the second part if the array
-#def sort():
-    #array_sorted = array[np.argsort(array[:,[1][0]])]
+# Labels und Titel
+plt.xlabel('X-Achse')
+plt.ylabel('Y-Achse')
+plt.title('Plot von Punkten und Linien')
 
+# Legende anzeigen
+plt.legend()
 
-
-#learn about function find_first()
+# Anzeige des Plots
+plt.show()

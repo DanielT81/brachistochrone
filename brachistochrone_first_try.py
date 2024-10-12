@@ -18,23 +18,20 @@ arr_len = 2  # length of the non-zero values
 def sqr(var):
     return var ** 2
 
+
     #
-
-
-def vector(minuend, subtrahend):
-    result = aarr(minuend) - aarr(subtrahend)
+def vec(start_vec, end_vec):
+    result = aarr(start_vec) - aarr(end_vec)
     return result
 
+
     #
-
-
 def new_point(start_point, end_point):
-    def_point = aarr(start_point) + 0.5 * aarr(vector(end_point, start_point))
+    def_point = aarr(start_point) + 0.5 * aarr(vec(end_point, start_point))
     return def_point
 
+
     #
-
-
 def sort_arr():
     iterations = 0
     total_iterations = np.size(arr, 0)
@@ -46,29 +43,25 @@ def sort_arr():
             arr_len = iterations
             break
 
+
     #
-
-
 def norm_vec(def_vec):
     def_norm_vec = np.array([float(-def_vec[0]), float(def_vec[1])]) / float(sqrt(sqr(def_vec[0]) + sqr(def_vec[1])))
     return def_norm_vec
 
+
     #
-
-
 def optimizer(p1, p2):
     new_point = new_point(p2, p1)
-    def_vec = vector(p2, p1)
+    def_vec = vec(p2, p1)
     norm_vec = norm_vec(def_vec)
     norm_vec_fac = 0
     start_vel = arr_time[7]
     arr_time[0] = [p1, p2, new_point, norm_vec, norm_vec_fac, physics()]
 
+
     #
-
-
-def physics(start_vel, def_vec, debugger):
-    print(f'this is the {debugger} physics term')
+def physics(start_vel, def_vec):
     if start_vel > 0:
         print('physics: the starting velocity doesnt make sense here')
         return
@@ -98,9 +91,8 @@ def physics(start_vel, def_vec, debugger):
     print([time_result, velocity_result])
     return [time_result, velocity_result]
 
+
     #
-
-
 def vec_arr():
     iterations = 0
 
@@ -122,8 +114,8 @@ arr_time[0] = [arr[0],
                          arr[1])]  # setting the boundary condition so there is no need for an annoying if-clause
 # print(physics(arrT[0,6] + 1, vector(arrT[0,0], arrT[0,1])))
 '''
-print(vector([10,0],[0,10]), '\n' * 5, physics(0, [10, -10]))
-# print(vector(arrT[0,0], arrT[0,1]))
+
+print(vec([10, 0], [0, 10]), '\n' * 5, physics(0, [10, -10]))
 
 
 end_time = time.process_time()

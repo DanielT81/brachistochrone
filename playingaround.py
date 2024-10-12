@@ -1,12 +1,14 @@
+import time
+start_time = time.process_time()  # to track the computation-time
+for i in range(1000000):
+    pass
 import numpy as np
 from math import sin, cos, pi, sqrt, atan
 from numpy import asarray as aarr
 import scipy as sp
-import time
 
-start_time = time.process_time()  # to track the computation-time
-for i in range(1000000):
-    pass
+
+
 
 g = -9.81
 index_number = 2
@@ -18,23 +20,20 @@ arr_len = 2  # length of the non-zero values
 def sqr(var):
     return var ** 2
 
+
     #
-
-
-def vector(minuend, subtrahend):
-    result = aarr(minuend) - aarr(subtrahend)
+def vec(start_point, end_point):
+    result = aarr(start_point) - aarr(end_point)
     return result
 
+
     #
-
-
 def new_point(start_point, end_point):
-    def_point = aarr(start_point) + 0.5 * aarr(vector(end_point, start_point))
+    def_point = aarr(start_point) + 0.5 * aarr(vec(end_point, start_point))
     return def_point
 
+
     #
-
-
 def sort_arr():
     iterations = 0
     total_iterations = np.size(arr, 0)
@@ -46,29 +45,28 @@ def sort_arr():
             arr_len = iterations
             break
 
+
     #
-
-
 def norm_vec(def_vec):
     def_norm_vec = np.array([float(-def_vec[0]), float(def_vec[1])]) / float(sqrt(sqr(def_vec[0]) + sqr(def_vec[1])))
     return def_norm_vec
 
+
     #
-
-
-def optimizer(p1, p2):
-    new_point = new_point(p2, p1)
-    def_vec = vector(p2, p1)
+def optimizer(start_vel, start_point, end_point):
+    boundary_vec = vec(start_point, end_point)
+    new_point = new_point(start_point, end_point)
+    def_vec = vec(start_point, end_point)
     norm_vec = norm_vec(def_vec)
     norm_vec_fac = 0
-    start_vel = arr_time[7]
-    arr_time[0] = [p1, p2, new_point, norm_vec, norm_vec_fac, physics()]
+    start_vel = arr_time[0, 7]
+    arr_time[1] = [start_point, end_point, new_point, norm_vec, norm_vec_fac, physics(vel, start_point)]
+
 
     #
-
-
-def physics(start_vel, def_vec, debugger):
-    print(f'this is the {debugger} physics term')
+def physics(start_vel, def_vec, *debugger):
+    if debugger:
+        print(f'this is the {debugger} physics term')
     if start_vel > 0:
         print('physics: the starting velocity doesnt make sense here')
         return
@@ -95,36 +93,37 @@ def physics(start_vel, def_vec, debugger):
         return
     time_result = possible_time_arr[1]
     velocity_result = start_vel + a_coefficient * time_result
-    print([time_result, velocity_result])
+    #print([time_result, velocity_result])
     return [time_result, velocity_result]
 
+
     #
-
-
 def vec_arr():
     iterations = 0
 
 
-arr = np.zeros([ATP, 2])  # array with all the points and given indices to track manually
+arr = np.zeros([ATP, 4])  # array with all the points and given indices to track manually
 arr_time = np.zeros([3, 8], dtype=object)  # read the README to get the structure
 
 arr[0] = [0, 10]  # setting the boundary conditions
 arr[1] = [10, 0]  # setting the boundary conditions
-'''
+boundary_vec = vec(arr[0], arr[1])
 arr_time[0] = [arr[0],
                arr[1],
                new_point(arr[0], arr[1]),
-               norm_vec(vector(arr[0], arr[1])),
+               norm_vec(boundary_vec),
                0,
-               physics(0, vector(arr[0], arr[1]), 1)[0],
-               physics(0, vector(arr[0], arr[1]), 2)[1],
-               new_point(arr[0],
-                         arr[1])]  # setting the boundary condition so there is no need for an annoying if-clause
+               physics(0, boundary_vec)[0],
+               physics(0, boundary_vec)[1],
+               new_point(arr[0], arr[1])]  # setting the boundary condition so there is no need for an annoying if-clause
 # print(physics(arrT[0,6] + 1, vector(arrT[0,0], arrT[0,1])))
-'''
-print(vector([10,0],[0,10]), '\n' * 5, physics(0, [10, -10], 0))
-# print(vector(arrT[0,0], arrT[0,1]))
+
+
+
+print(vec([0, 10], [10, 0]), '\n')
+physics(0, [10, -10])
+#physics(0,vector(arr[1], arr[0]))
 
 
 end_time = time.process_time()
-# print('\n' * 5, f"Elapsed time: {end_time - start_time} seconds")
+print('\n' * 3, f"Elapsed time: {end_time - start_time} seconds")
