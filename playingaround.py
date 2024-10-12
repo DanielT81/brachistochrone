@@ -67,36 +67,36 @@ def optimizer(p1, p2):
     #
 
 
-def physics(start_vel, def_vec):
+def physics(start_vel, def_vec, debugger):
+    print(f'this is the {debugger} physics term')
     if start_vel > 0:
         print('physics: the starting velocity doesnt make sense here')
         return
     delta_x = def_vec[0]
     delta_y = def_vec[1]
     delta_s = sqrt(sqr(delta_x) + sqr(delta_y))
-    cos_phi = sqrt(1 / (1 + sqr(delta_x / delta_y)))
-    a = ((-0.5) * g * cos_phi * (-delta_y / sqrt(
-        delta_y ** 2)))  # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
-    b = start_vel
-    c = delta_s
-    t = np.roots([a, b, c])
+    acceleration_angle_factor = sqrt(1 / (1 + sqr(delta_x / delta_y)))
+    a_coefficient = ((-0.5) * g * acceleration_angle_factor * (delta_y / sqrt(delta_y ** 2)))  # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
+    b_coefficient = start_vel
+    c_coefficient = delta_s
+    possible_time_arr = np.roots([a_coefficient, b_coefficient, c_coefficient])
     # if str(t[0])[len(t[0])] == 'j' or str(t[1])[len(t[1])] == 'j':
-    if type(t[0]) == np.complex128 or type(t[1]) == np.complex128:
+    if type(possible_time_arr[0]) == np.complex128 or type(possible_time_arr[1]) == np.complex128:
         print('physics: problem with the imaginary unity')
         return
-    t = t[np.argsort(t)]
-    if t[1] < 0:
+    possible_time_arr = possible_time_arr[np.argsort(possible_time_arr)]
+    if possible_time_arr[1] < 0:
         print('physics: both t values are negative')
-        print(t)
+        print(possible_time_arr)
         return
-    if t[0] > 0:
+    if possible_time_arr[0] > 0:
         print('physics: both t values are positive')
-        print(t)
+        print(possible_time_arr)
         return
-    t_result = t[1]
-    v_result = start_vel + a * cos_phi * t_result
-    print([t_result, v_result])
-    return [t_result, v_result]
+    time_result = possible_time_arr[1]
+    velocity_result = start_vel + a_coefficient * time_result
+    print([time_result, velocity_result])
+    return [time_result, velocity_result]
 
     #
 
@@ -110,12 +110,19 @@ arr_time = np.zeros([3, 8], dtype=object)  # read the README to get the structur
 
 arr[0] = [0, 10]  # setting the boundary conditions
 arr[1] = [10, 0]  # setting the boundary conditions
-arr_time[0] = [arr[0], arr[1], new_point(arr[0], arr[1]), norm_vec(vector(arr[0], arr[1])), 0,
-               physics(arr[0], arr[1])[0], physics(arr[0], arr[1])[1], new_point(arr[0], arr[
-        1])]  # setting the boundary condition so there is no need for an annoying if-clause
-#     starting point  end point      new point between the two       normal vector to the vector        norm_vec_factor       time_taken                end_velocity   newly created point 'new_point + norm_vec * norm_vec_factor'
+'''
+arr_time[0] = [arr[0],
+               arr[1],
+               new_point(arr[0], arr[1]),
+               norm_vec(vector(arr[0], arr[1])),
+               0,
+               physics(0, vector(arr[0], arr[1]), 1)[0],
+               physics(0, vector(arr[0], arr[1]), 2)[1],
+               new_point(arr[0],
+                         arr[1])]  # setting the boundary condition so there is no need for an annoying if-clause
 # print(physics(arrT[0,6] + 1, vector(arrT[0,0], arrT[0,1])))
-print(physics(-0, [10, -10]))
+'''
+print(vector([10,0],[0,10]), '\n' * 5, physics(0, [10, -10], 0))
 # print(vector(arrT[0,0], arrT[0,1]))
 
 
