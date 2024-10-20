@@ -4,9 +4,7 @@ from numpy import asarray as aarr
 import scipy as sp
 import time
 
-start_time = time.process_time()  # to track the computation-time
-for i in range(1000000):
-    pass
+start_time = time.perf_counter()  # to track the computation-time
 
 g = -9.81
 index_number = 2
@@ -118,5 +116,5 @@ arr_time[0] = [arr[0],
 print(vec([10, 0], [0, 10]), '\n' * 5, physics(0, [10, -10]))
 
 
-end_time = time.process_time()
+end_time = time.per_counter()
 # print('\n' * 5, f"Elapsed time: {end_time - start_time} seconds")
