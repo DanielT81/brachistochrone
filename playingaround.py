@@ -1,7 +1,5 @@
 import time
-start_time = time.process_time()  # to track the computation-time
-for i in range(1000000):
-    pass
+start_time = time.perf_counter()  # to track the computation-time
 import numpy as np
 from math import sin, cos, pi, sqrt, atan
 from numpy import asarray as aarr
@@ -125,5 +123,5 @@ physics(0, [10, -10])
 #physics(0,vector(arr[1], arr[0]))
 
 
-end_time = time.process_time()
-print('\n' * 3, f"Elapsed time: {end_time - start_time} seconds")
+end_time = time.perf_counter()
+print('\n' * 3, f"Elapsed time: {end_time - start_time} seconds, you fucking moron")
