@@ -27,7 +27,7 @@ given arrays and global values: <br>
 
 
 
-**arrT** | array with the new point currently being optimized <br>
+**arr_time** | array with the new point currently being optimized <br>
 
 1. point the vector starts from <br>
 2. point the vector goes to <br>
