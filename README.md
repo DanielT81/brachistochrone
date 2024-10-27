@@ -6,31 +6,40 @@ work in progress<br><br>
 
 The brachistochrone is a problem already having been precisley analytically solved revolving about 2 points in a conservative field. The goal is to optimize a curve connecting the two points based on the time an objects takes to get from one point to the other accelerated by the conservative field.<br>
 
+
 Current idea is to divide the hypothetical into connected vectors and locally optimizing those. Problem with that being that there is no prove yet for the local optimization being part of the global optimization. <br>
 
-Other plan would be to already having the direction orthogonal to the forces field lines subdivided and optimizing those with respect to speed and time. Still faces issues regarding grading of speed gained to time taken for sub-part on each vector.<br>
 
-<br><br>
-pseudo code for optimisation:<br>
-<br>
-given arrays: <br>
+Other plan would be to already having the direction orthogonal to the forces field lines subdivided and optimizing those with respect to speed and time. Still faces issues regarding grading of speed gained to time taken for sub-part on each vector.<br><br><br>
+
+
+
+pseudo code for optimisation:<br><br>
+
+given arrays and global values: <br>
 **arr**  | array with the given points <br>
 1. index <br>
 2. coordinates <br>
-3. time taken to get to the point starting from the previous point while having the starting velocity
-4. end velocity from the first point onwards till this point
+3. time taken to get to the point starting from the previous point while having  the starting velocity <br>
+4. end velocity from the first point onwards till this point<br>
+5. time calculated to get to this point from the previous point <br>
+
+
 
 
 **arrT** | array with the new point currently being optimized <br>
 
-1. point the vector starts from<br>
-2. point the vector goes to<br>
-3. @new_point between @1 and @2<br>
-4. @norm_vec to the connecting vector<br>
-5. @norm_vec_factor for the normal vector<br>
-6. time taken to get from @1 over @3 + @5*@4 to @2<br>
-7. end velocity after the calculation
-8. @3 + @4*@5
+1. point the vector starts from <br>
+2. point the vector goes to <br>
+3. @new_point between @1 and @2 <br>
+4. @norm_vec to the connecting vector <br>
+5. @norm_vec_factor for the normal vector <br>
+6. time taken to get from @1 over @3 + @5*@4 to @2 <br>
+7. end velocity after the calculation <br>
+8. @3 + @4*@5 <br><br><br>
+
+
+
 
 first row is for the old time that is to beat<br>
 second row is for the new old time that is to beat<br>
