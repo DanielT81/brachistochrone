@@ -7,8 +7,11 @@ import scipy as sp
 
 
 
+set_start_point = [0,10] #the set start point for the computation
+set_end_point = [10,0] #the set end point for the computation
 
-g = -9.81
+
+g = -9.81 #gravitational acceleration factor
 index_number = 2
 AIP = 4  # amount of iterations to create new points
 ATP = 2 ** AIP + 1  # amount of total points in the system
@@ -21,7 +24,7 @@ def sqr(var):
 
     #
 def vec(start_point, end_point):
-    result = aarr(start_point) - aarr(end_point)
+    result = aarr(end_point) - aarr(start_point)
     return result
 
 
@@ -78,15 +81,15 @@ def physics(start_vel, def_vec, *debugger):
     possible_time_arr = np.roots([a_coefficient, b_coefficient, c_coefficient])
     # if str(t[0])[len(t[0])] == 'j' or str(t[1])[len(t[1])] == 'j':
     if type(possible_time_arr[0]) == np.complex128 or type(possible_time_arr[1]) == np.complex128:
-        print('physics: problem with the imaginary unity')
+        print('physics: problem with the imaginary unity',  debugger)
         return
     possible_time_arr = possible_time_arr[np.argsort(possible_time_arr)]
     if possible_time_arr[1] < 0:
-        print('physics: both t values are negative')
+        print('physics: both t values are negative',  debugger)
         print(possible_time_arr)
         return
     if possible_time_arr[0] > 0:
-        print('physics: both t values are positive')
+        print('physics: both t values are positive',  debugger)
         print(possible_time_arr)
         return
     time_result = possible_time_arr[1]
@@ -100,27 +103,28 @@ def vec_arr():
     iterations = 0
 
 
-arr = np.zeros([ATP, 4])  # array with all the points and given indices to track manually
+arr = np.zeros([ATP, 3], dtype=object)  # array with all the points and given indices to track manually
 arr_time = np.zeros([3, 8], dtype=object)  # read the README to get the structure
 
-arr[0] = [0, 10]  # setting the boundary conditions
-arr[1] = [10, 0]  # setting the boundary conditions
-boundary_vec = vec(arr[0], arr[1])
-arr_time[0] = [arr[0],
-               arr[1],
-               new_point(arr[0], arr[1]),
+arr[0] = [set_start_point,0,0]  # setting the boundary conditions
+arr[1] = [set_end_point, *physics(0,vec(set_end_point,set_end_point))]# setting the boundary conditions
+boundary_vec = vec(set_start_point, set_end_point)
+arr_time[0] = [set_start_point,
+               set_end_point,
+               new_point(set_start_point, set_end_point),
                norm_vec(boundary_vec),
                0,
                physics(0, boundary_vec)[0],
                physics(0, boundary_vec)[1],
-               new_point(arr[0], arr[1])]  # setting the boundary condition so there is no need for an annoying if-clause
-# print(physics(arrT[0,6] + 1, vector(arrT[0,0], arrT[0,1])))
+               new_point(set_start_point, set_end_point)]  # setting the boundary condition so there is no need for an annoying if-clause
+# print(physics(arrT[0,6] + 1, vec(arrT[0,0], arrT[0,1])))
 
 
+boundary_vec = vec(set_start_point, set_end_point)
 
 print(vec([0, 10], [10, 0]), '\n')
-physics(0, [10, -10])
-#physics(0,vector(arr[1], arr[0]))
+physics(0, boundary_vec, 2)
+#physics(0,vec(arr[1], arr[0]))
 
 
 end_time = time.perf_counter()
