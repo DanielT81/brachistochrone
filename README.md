@@ -18,7 +18,7 @@ given arrays: <br>
 1. index <br>
 2. coordinates <br>
 3. time taken to get to the point starting from the previous point while having the starting velocity
-4. end velocity from the first point onwards till tis point
+4. end velocity from the first point onwards till this point
 
 
 **arrT** | array with the new point currently being optimized <br>
