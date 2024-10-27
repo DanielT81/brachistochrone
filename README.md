@@ -18,11 +18,9 @@ pseudo code for optimisation:<br><br>
 
 given arrays and global values: <br>
 **arr**  | array with the given points <br>
-1. index <br>
-2. coordinates <br>
-3. time taken to get to the point starting from the previous point while having  the starting velocity <br>
-4. end velocity from the first point onwards till this point<br>
-5. time calculated to get to this point from the previous point <br>
+1. coordinates <br>
+2. time taken to get to the point starting from the previous point while having  the starting velocity <br>
+3. end velocity from the first point onwards till this point<br>
 
 
 
