@@ -47,7 +47,7 @@ third row is for the new time that has to beat<br>
 
 <br><br><br><br>
 given functions:\
-**vector**    | Input: start_point and end_point | Output: numpy array with the vector difference of the points | gives the vector to get from start_point to end_point<br>
+**vec**    | Input: start_point and end_point | Output: numpy array with the vector difference of the points | gives the vector to get from start_point to end_point<br>
 **new_point** | Input: point and vector | Output: new point half a vector from the original point<br>
 **norm_vec**  | Input: vector | Output: normalized normal vector to the given vector<br>
 **sort_arr**  | sorts @arr based on the entries x-coordinate<br>
