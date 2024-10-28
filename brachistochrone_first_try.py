@@ -7,8 +7,8 @@ import scipy as sp
 
 
 
-set_start_point = [0,10] #the set start point for the computation
-set_end_point = [10,0] #the set end point for the computation
+set_start_point = aarr([0,10]) #the set start point for the computation
+set_end_point = aarr([10,0]) #the set end point for the computation
 
 
 g = -9.81 #gravitational acceleration factor
@@ -24,14 +24,14 @@ def sqr(var):
 
     #
 def vec(start_point, end_point):
-    result = aarr(end_point) - aarr(start_point)
+    result = end_point - start_point
     return result
 
 
     #
 boundary_vec = vec(set_start_point, set_end_point) #setting the boundary vector for easy debugging
 def new_point(start_point, end_point):
-    def_point = aarr(start_point) + 0.5 * aarr(vec(end_point, start_point))
+    def_point = start_point + 0.5 * vec(start_point, end_point)
     return def_point
 
 
@@ -116,14 +116,18 @@ arr_time[0] = [set_start_point,
                0,
                *physics(0, boundary_vec),
                new_point(set_start_point, set_end_point)]  # setting the boundary condition so there is no need for an annoying if-clause
-# print(physics(arrT[0,6] + 1, vec(arrT[0,0], arrT[0,1])))
-
 
 
 #print(vec([0, 10], [10, 0]), '\n')
 #physics(0, boundary_vec)
-print(physics(0,boundary_vec))
-print(arr[:2])
+#print(physics(0,boundary_vec))
+#print(arr[:2], arr_time, sep='\n' * 2)
+print(type(new_point(set_start_point, set_end_point)), '\n'*3, arr, '\n'*3, arr_time)
+
+
+
+
+
 
 
 end_time = time.perf_counter()
