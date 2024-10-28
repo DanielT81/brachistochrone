@@ -29,6 +29,7 @@ def vec(start_point, end_point):
 
 
     #
+boundary_vec = vec(set_start_point, set_end_point) #setting the boundary vector for easy debugging
 def new_point(start_point, end_point):
     def_point = aarr(start_point) + 0.5 * aarr(vec(end_point, start_point))
     return def_point
@@ -71,8 +72,7 @@ def physics(start_vel, def_vec, *debugger):
     if start_vel > 0:
         print('physics: the starting velocity doesnt make sense here')
         return
-    delta_x = def_vec[0]
-    delta_y = def_vec[1]
+    delta_x, delta_y = def_vec
     delta_s = sqrt(sqr(delta_x) + sqr(delta_y))
     acceleration_angle_factor = sqrt(1 / (1 + sqr(delta_x / delta_y)))
     a_coefficient = ((-0.5) * g * acceleration_angle_factor * (delta_y / sqrt(delta_y ** 2)))  # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
@@ -107,24 +107,23 @@ arr = np.zeros([ATP, 3], dtype=object)  # array with all the points and given in
 arr_time = np.zeros([3, 8], dtype=object)  # read the README to get the structure
 
 arr[0] = [set_start_point,0,0]  # setting the boundary conditions
-arr[1] = [set_end_point, *physics(0,vec(set_end_point,set_end_point))]# setting the boundary conditions
+arr[1] = [set_end_point, *physics(0,vec(set_start_point,set_end_point))]# setting the boundary conditions
 boundary_vec = vec(set_start_point, set_end_point)
 arr_time[0] = [set_start_point,
                set_end_point,
                new_point(set_start_point, set_end_point),
                norm_vec(boundary_vec),
                0,
-               physics(0, boundary_vec)[0],
-               physics(0, boundary_vec)[1],
+               *physics(0, boundary_vec),
                new_point(set_start_point, set_end_point)]  # setting the boundary condition so there is no need for an annoying if-clause
 # print(physics(arrT[0,6] + 1, vec(arrT[0,0], arrT[0,1])))
 
 
-boundary_vec = vec(set_start_point, set_end_point)
 
-print(vec([0, 10], [10, 0]), '\n')
-physics(0, boundary_vec, 2)
-#physics(0,vec(arr[1], arr[0]))
+#print(vec([0, 10], [10, 0]), '\n')
+#physics(0, boundary_vec)
+print(physics(0,boundary_vec))
+print(arr[:2])
 
 
 end_time = time.perf_counter()
