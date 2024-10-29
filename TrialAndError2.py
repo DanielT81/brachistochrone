@@ -14,7 +14,7 @@ def vec(start_point, end_point):
 
 
     #
-def new_point(start_point, end_point):
+def comp_point(start_point, end_point):
     def_point = aarr(start_point) + 0.5 * aarr(vec(end_point, start_point))
     return def_point
 
@@ -84,18 +84,14 @@ good_naughty = np.zeros(shape=(2,length), dtype=object)
 
 def optimizing(vel, start_point, end_point):
     boundary_vec = vec(start_point, end_point)
-    newpoint = new_point(start_point, end_point)
+    comppoint = comp_point(start_point, end_point)
     def_vec = vec(start_point, end_point)
     normvec = norm_vec(vec(start_point, end_point))
     norm_vec_fac = 0
     optimizing_factor = 1
-    arr[0] = [start_point, end_point, newpoint, normvec, norm_vec_fac, physics(vel, start_point, end_point)[0], physics(vel, start_point, end_point)[1], 0]
+    arr[0] = [start_point, end_point, comppoint, normvec, norm_vec_fac, *physics(vel, start_point, end_point), 0]
 
-    for i in range(length):
-        if ((physics(vel, start_point, new_point(start_point, end_point) + normvec * (i-5000) * 0.001) + physics(physics(vel, start_point, new_point(start_point, end_point) + normvec)[1], new_point(start_point, end_point) + normvec * (i - 5000) * 0.001, end_point))[0]) < physics(vel, start_point, end_point)[0]:
-            good_naughty[0, i] = new_point(start_point, end_point) + normvec * (i-5000) * 0.001
-        else:
-            good_naughty[1, i] = new_point(start_point, end_point) + normvec * (i-5000) * 0.001
+
 
     '''
     while abs(optimizing_factor) > 0.01:
@@ -107,9 +103,9 @@ p2 = [0, 10]
 
 i = 6000
 
-#print(physics(0, p1, new_point(p1, p2) + norm_vec(vec(p1,p2)) * (i-5000) * 0.001)[0])
+#print(physics(0, p1, comp_point(p1, p2) + norm_vec(vec(p1,p2)) * (i-5000) * 0.001)[0])
 #print(   physics(0, p1, new_point(p1, p2) + norm_vec(vec(p1,p2)) * (i-5000) * 0.001)[1]) #end velocity after reaching the first sub-point
-#print( new_point(p1, p2) + norm_vec(vec(p1,p2)) * (i-5000) * 0.001, p2   )
+#print( comp_point(p1, p2) + norm_vec(vec(p1,p2)) * (i-5000) * 0.001, p2   )
 
 '''
 with open('output.txt', 'w') as file:
@@ -123,7 +119,7 @@ for i in range(10000):
     print(good_naughty[:, i])
 '''
 # Open the file in write mode
-print(physics(0, p1, new_point(p1, p2) + norm_vec(vec(p1,p2)) * (i-5000) * 0.001)[1])
+print(physics(0, p1, comp_point(p1, p2) + norm_vec(vec(p1,p2)) * (i-5000) * 0.001)[1])
 print(physics(0, p1, p2))
 
 
