@@ -3,13 +3,11 @@ start_time = time.perf_counter()  # to track the computation-time
 import numpy as np
 from math import sin, cos, pi, sqrt, atan
 from numpy import asarray as aarr
-import scipy as sp
-
+from matplotlib import pyplot as plt
 
 
 set_start_point = aarr([0,10]) #the set start point for the computation
 set_end_point = aarr([10,0]) #the set end point for the computation
-
 
 g = -9.81 # gravitational acceleration factor
 index_number = 2 # setting the current number of indices 
@@ -32,10 +30,6 @@ def vec(start_point, end_point) -> np.array: # function that returns the vector 
 
     #
 global_vec = vec(set_start_point, set_end_point) # setting the boundary vector for easy debugging
-
-
-
-
 def mid_point(start_point, end_point) -> np.array: # function that returns the point directly in the middle of two points
     def_point = start_point + 0.5 * vec(start_point, end_point)
     return def_point
@@ -74,7 +68,6 @@ def physics(start_vel, def_vec, *debugger) -> list: # function that calculates t
     b_coefficient = start_vel
     c_coefficient = delta_s
     possible_time_arr = np.roots([a_coefficient, b_coefficient, c_coefficient])
-    # if str(t[0])[len(t[0])] == 'j' or str(t[1])[len(t[1])] == 'j':
     if type(possible_time_arr[0]) == np.complex128 or type(possible_time_arr[1]) == np.complex128:
         print('physics: problem with the imaginary unity',  debugger)
         return
@@ -90,35 +83,37 @@ def physics(start_vel, def_vec, *debugger) -> list: # function that calculates t
     time_result = possible_time_arr[1]
     velocity_result = start_vel + a_coefficient * time_result
     #print([time_result, velocity_result])
-    return [time_result, velocity_result]
+    return aarr([time_result, velocity_result])
     
     
-    
+norm_vec_fac = 0.01
     #
-def calc_arr_time_row() -> None:
+def calc_arr_time_row() -> None: # function that calculates the third row of arr_time based on the second row
     start_vel = arr_time[1,0]
     (start_point, end_point) = arr_time[1, 1:3]
     mid_point = arr_time[1,3]
     norm_vec = arr_time[1,4]
     norm_vec_fac = arr_time[1,5] + optimizing_factor
     new_point = mid_point + norm_vec * norm_vec_fac
-    (def_time1, def_vel1) = physics(start_vel, vec(start_point, new_point))
-    (def_time2, def_vel2) = physics(def_vel1, vec(new_point, end_point))
-    
-    arr_time[2] = [start_vel, start_point, end_point, 
-    mid_point, norm_vec, norm_vec_fac, 
+    def_time1, def_vel1 = physics(start_vel, vec(start_point, new_point))
+    def_time2, def_vel2 = physics(def_vel1, vec(new_point, end_point))
+
+    arr_time[2] = [start_vel, start_point, end_point,
+    mid_point, norm_vec, norm_vec_fac,
     def_time1+def_time2, def_vel2, new_point]
-    
-    
+
+
     #
 '''defining the arrays that will help calculate'''
-    
+
 arr = np.zeros([ATP, 3], dtype=object)  # array with all the points and given indices to track manually
 arr_time = np.zeros([3, 9], dtype=object)  # read the README to get the structure
 
 arr[0] = [set_start_point,0,0]  # setting the boundary conditions
 arr[1] = [set_end_point, *physics(0,vec(set_start_point,set_end_point))]# setting the boundary conditions
 boundary_vec = vec(set_start_point, set_end_point)
+
+
 arr_time[0] = [
                0,
                set_start_point,
@@ -129,7 +124,7 @@ arr_time[0] = [
                *physics(0, boundary_vec),
                mid_point(set_start_point, set_end_point)]  # setting the boundary condition so there is no need for an annoying if-clause
 
-    
+arr_time[1] = arr_time[0]
     
     
     
@@ -165,9 +160,10 @@ def optimizing(vel, start_point, end_point):
         if physics(vel, start_point, )
     '''
 
+calc_arr_time_row()
+print(arr_time)
+#optimizing(0, set_start_point, set_end_point)
+#print(arr_time, '\n'*2, arr)
 
-optimizing(0, set_start_point, set_end_point)
-print(arr_time, '\n'*2, arr)
 
-
-#print(good_naughty)
+#print('good_naughty')
