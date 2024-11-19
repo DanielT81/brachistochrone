@@ -15,7 +15,7 @@ AIP = 4  # amount of iterations to create new points
 ATP = 2 ** AIP + 1  # amount of total points in the system
 arr_len = 2  # length of the non-zero values
 optimizing_factor = 0.001 # the difference in the norm_vec's length per step'
-
+did_just_change = True # variable on whether the previous new point was more optimized
 
 
 def sqr(var) -> float: # function that returns the square of a float
@@ -37,7 +37,7 @@ def mid_point(start_point, end_point) -> np.array: # function that returns the p
 
     #
 def norm_vec(def_vec) -> np.array: # function that returns the normalized normal vector to a vector
-    def_norm_vec = np.array([float(-def_vec[0]), float(def_vec[1])]) / float(sqrt(sqr(def_vec[0]) + sqr(def_vec[1])))
+    def_norm_vec = np.array([float(-def_vec[0]), float(def_vec[1])]) / float(sqrt(sqr(def_vec[0]) + sqr(def_vec[1]))) # normalvector to def_vec
     return def_norm_vec
 
 
@@ -86,15 +86,16 @@ def physics(start_vel, def_vec, *debugger) -> list: # function that calculates t
     return aarr([time_result, velocity_result])
     
     
-norm_vec_fac = 0.01
     #
-def calc_arr_time_row() -> None: # function that calculates the third row of arr_time based on the second row
+def calc_arr_time0(def_vel, start_point, end_point):
+    
+def calc_arr_time2(def_norm_vec_fac) -> None: # function that calculates the third row of arr_time based on the second row
     start_vel = arr_time[1,0]
     (start_point, end_point) = arr_time[1, 1:3]
     mid_point = arr_time[1,3]
     norm_vec = arr_time[1,4]
-    norm_vec_fac = arr_time[1,5] + optimizing_factor
-    new_point = mid_point + norm_vec * norm_vec_fac
+    def_norm_vec_fac = arr_time[1,5] + optimizing_factor
+    new_point = mid_point + norm_vec * def_norm_vec_fac
     def_time1, def_vel1 = physics(start_vel, vec(start_point, new_point))
     def_time2, def_vel2 = physics(def_vel1, vec(new_point, end_point))
 
@@ -104,6 +105,8 @@ def calc_arr_time_row() -> None: # function that calculates the third row of arr
 
 
     #
+def eval_arr_time() -> None:
+    
 '''defining the arrays that will help calculate'''
 
 arr = np.zeros([ATP, 3], dtype=object)  # array with all the points and given indices to track manually
@@ -146,6 +149,7 @@ def optimizing(vel, start_point, end_point):
     def def_vector(index):
         def_vector = ...
     
+    for i in range(n)
     
     '''
     for i in range(10000):
@@ -160,7 +164,7 @@ def optimizing(vel, start_point, end_point):
         if physics(vel, start_point, )
     '''
 
-calc_arr_time_row()
+calc_arr_time2()
 print(arr_time)
 #optimizing(0, set_start_point, set_end_point)
 #print(arr_time, '\n'*2, arr)
