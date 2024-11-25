@@ -7,6 +7,7 @@ optimizing_factor = np.dot(global_vec, global_vec) * 0.0001
 
 
 def optimizing(vel, start_point, end_point):
+    global changes
     changes = 0  # counts the amount of changes in the sign of the norm_vec_fac
     optimizing_factor = 0.001 * (vec(start_point, end_point) * vec(start_point, end_point)) # the difference in the norm_vec's length per step'
     calc_arr_time0(vel, start_point, end_point)
