@@ -18,7 +18,7 @@ g = -9.81
 
 optimizing_factor = 0.001
 changes = 0
-sign = -1
+#sign = -1
 
 
 def sqr(var) -> float: # function that returns the square of a float
@@ -110,25 +110,28 @@ def calc_arr_time0(def_vel, start_point, end_point) -> None: # function that cal
 
 
     #
-def calc_arr_time2(def_index) -> None: # function that calculates the third row of arr_time based on the second row
-    start_vel = arr_time[1,0]
-    (start_point, end_point) = arr_time[1, 1:3]
-    def_mid_point = arr_time[1,3]
-    def_norm_vec = arr_time[1,4]
-    def_norm_vec_fac = arr_time[1,5] + optimizing_factor
-    new_point = def_mid_point + def_norm_vec * def_norm_vec_fac * sign
-    def_time1, def_vel1 = physics(start_vel, vec(start_point, new_point))
-    def_time2, def_vel2 = physics(def_vel1, vec(new_point, end_point))
+#ef calc_arr_time2(def_index) -> None: # function that calculates the third row of arr_time based on the second row
+#   global sign
+#   global arr_time
+#   start_vel = arr_time[1,0]
+#   (start_point, end_point) = arr_time[1, 1:3]
+#   def_mid_point = arr_time[1,3]
+#   def_norm_vec = arr_time[1,4]
+#   def_norm_vec_fac = arr_time[1,5] + optimizing_factor
+#   new_point = def_mid_point + def_norm_vec * def_norm_vec_fac * sign
+#   print(f'sign: {sign}')
+#   def_time1, def_vel1 = physics(start_vel, vec(start_point, new_point))
+#   def_time2, def_vel2 = physics(def_vel1, vec(new_point, end_point))
 
-    arr_time[2] = [start_vel,
-                   start_point,
-                   end_point,
-                   def_mid_point,
-                   def_norm_vec,
-                   def_norm_vec_fac,
-                   def_time1+def_time2,
-                   def_vel2,
-                   new_point]
+#   arr_time[2] = [start_vel,
+#                  start_point,
+#                  end_point,
+#                  def_mid_point,
+#                  def_norm_vec,
+#                  def_norm_vec_fac,
+#                  def_time1+def_time2,
+#                  def_vel2,
+#                  new_point]
 
 
     #
@@ -141,3 +144,13 @@ def comp_time() -> None:
         print(changes)
         global sign
         sign = sign * -1
+
+#ef comp_time2() -> None:
+#   while changes <= 2:
+#       calc_arr_time2(optimizing_factor)
+#       if arr_time[2,6] < arr_time[1,6]:
+#           arr_time[1] = arr_time[2]
+#       else:
+#           changes += 1
+#           print(changes)
+#           sign = sign * -1
