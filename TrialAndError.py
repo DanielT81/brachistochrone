@@ -1,63 +1,54 @@
 import numpy as np
+from scipy.optimize import newton
+from scipy.integrate import quad
 import matplotlib.pyplot as plt
 
+# Acceleration due to gravity (m.s-2); final position of bead (m).
+g = 9.81
+x2, y2 = 1, 0.65
 
-def cycloid(0, 10, 10, 0, ):
-    # Calculate the range of the cycloid (end minus start)
-    delta_x = x_end - x_start
-    delta_y = y_end - y_start
+def cycloid(x2, y2, N=100):
+    """Return the path of Brachistochrone curve from (0,0) to (x2, y2).
 
-    # Use the formula of a cycloid but scale it to the specified range
-    # Find a suitable scaling factor for the radius
-    r = delta_x / (2 * np.pi)  # scaling factor to fit x range
+    The Brachistochrone curve is the path down which a bead will fall without
+    friction between two points in the least time (an arc of a cycloid).
+    It is returned as an array of N values of (x,y) between (0,0) and (x2,y2).
 
-    # Parametric cycloid equations
-    def cycloid_function(t):
-        x = r * (t - np.sin(t))
-        y = r * (1 - np.cos(t))
-        return x, y
+    """
 
-    # Find the t values corresponding to x_start and x_end
-    t_start, t_end = 0, 2 * np.pi  # Default range for the cycloid
+    # First find theta2 from (x2, y2) numerically (by Newton-Rapheson).
+    def f(theta):
+        return y2/x2 - (1-np.cos(theta))/(theta-np.sin(theta))
+    theta2 = newton(f, np.pi/2)
 
-    # Rescale the parameter range for the given x_start and x_end
-    def rescale_t(x_input):
-        t = np.linspace(t_start, t_end, 1000)
-        x_t_values = np.array([cycloid_function(t_i)[0] for t_i in t])
-        t_idx = np.searchsorted(x_t_values, x_input)
-        return t[t_idx]
+    # The radius of the circle generating the cycloid.
+    R = y2 / (1 - np.cos(theta2))
 
-    # Now, find the t corresponding to the input x_val
-    t_val = rescale_t(x_val)
+    theta = np.linspace(0, theta2, N)
+    x = R * (theta - np.sin(theta))
+    y = R * (1 - np.cos(theta))
 
-    # Get the y value at this t
-    x_res, y_res = cycloid_function(t_val)
-
-    # Scale y to fit between y_start and y_end
-    y_res = y_start + (y_res / r) * delta_y
-
-    return y_res
+    # The time of travel
+    T = theta2 * np.sqrt(R / g)
+    print('T(cycloid) = {:.3f}'.format(T))
+    return x, y, T
 
 
-# Example Usage
-x_start = 0
-x_end = 10
-y_start = 0
-y_end = 5
-x_val = 5
 
-y_at_x = cycloid(x_start, x_end, y_start, y_end, x_val)
-print(f"The y-value at x = {x_val} is: {y_at_x}")
 
-# Plotting the cycloid
-x_vals = np.linspace(x_start, x_end, 500)
-y_vals = [cycloid(x_start, x_end, y_start, y_end, x) for x in x_vals]
 
-plt.plot(x_vals, y_vals, label='Cycloid curve')
-plt.scatter(x_val, y_at_x, color='red', label=f"Point at x={x_val}, y={y_at_x}")
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Cycloid Curve')
-plt.legend()
-plt.grid(True)
+
+
+
+
+
+for curve in ('cycloid'):
+    x, y, T = globals()[curve](-10, -10)
+    ax.plot(x, y, lw=4, alpha=0.5, label='{}: {:.3f} s'.format(curve, T))
+ax.legend()
+
+ax.set_xlabel('$x$')
+ax.set_xlabel('$y$')
+ax.set_xlim(0, 1)
+ax.set_ylim(0.8, 0)
 plt.show()
