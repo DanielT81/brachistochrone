@@ -47,11 +47,14 @@ def norm_vec(def_vec) -> np.array: # function that returns the normalized normal
 
     #
 def sort_arr() -> None: # function that just sorts the array arr depending on the x-coordinate
-    arr[:arr_len] = arr[np.argsort(arr[:arr_len, [1,0]])]
+    global arr_len
+    print(arr[:arr_len], '\n'*2, np.sort(arr[:arr_len]))
+    '''
+    arr[:arr_len] = np.sort(arr[:arr_len], 0)
     for def_index, def_arr_line in enumerate(arr[1:arr_len]):
         arr[def_index, 1] = physics(arr[def_index - 1, 1], vec(arr[def_index - 1, 0], def_arr_line[1]) + arr[def_index - 1, [1]])[0]
         arr[def_index, 2] = physics(arr[def_index - 1, 1], vec(arr[def_index - 1, 0], def_arr_line[1]))[1]
-
+    '''
 
 
     #
@@ -112,16 +115,13 @@ def comp_time() -> None:
     global changes
     global sign
     while changes < 2:
-        #print('\n'*5, arr_time[1:3], '\n'*5)
         calc_arr_time2(optimizing_factor)
         if arr_time[2,6] < arr_time[1,6]:
             arr_time[1] = arr_time[2]
         else:
             changes += 1
-            #print(f'changes: {changes}')
             sign = sign * -1
-            #print(f'sign in comp_time2 {sign}')
-    print(arr_time)
+    print(arr_time, '\n' * 2)
 
 
     #
@@ -167,10 +167,13 @@ optimizing_factor = np.dot(global_vec, global_vec) * 0.0001
 
 
 
-#print('first changes: ' + str(changes))
-optimizing(0, set_start_point, set_end_point)
-print('\n' * 2, arr_time[0,6], ' original time \n', arr_time[2,6], ' new time \n')
-print(arr)
+calc_arr_time0(0,set_start_point, set_end_point)
+print(arr[:arr_len])
+np.sort(arr, 0)
+
+#optimizing(0, set_start_point, set_end_point)
+#print('\n' * 2, arr_time[0,6], ' original time \n', arr_time[2,6], ' new time \n')
+#print(arr)
 
 
 end_time = time.perf_counter()

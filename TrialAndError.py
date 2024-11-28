@@ -1,54 +1,181 @@
+import time
+from math import sqrt, sin, cos, pi
 import numpy as np
-from scipy.optimize import newton
-from scipy.integrate import quad
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
+from numpy import asarray as aarr
+start_time = time.perf_counter()  # to track the computation-time
 
-# Acceleration due to gravity (m.s-2); final position of bead (m).
-g = 9.81
-x2, y2 = 1, 0.65
+'''defining all the variables'''
+changes = 0
+sign = -1
+g = -9.81
+index_number = 2 # setting the current number of indices
+AIP = 4  # amount of iterations to create new points
+ATP = 2 ** AIP + 1  # amount of total points in the system
+arr_len = 2  # length of the non-zero values
 
-def cycloid(x2, y2, N=100):
-    """Return the path of Brachistochrone curve from (0,0) to (x2, y2).
-
-    The Brachistochrone curve is the path down which a bead will fall without
-    friction between two points in the least time (an arc of a cycloid).
-    It is returned as an array of N values of (x,y) between (0,0) and (x2,y2).
-
-    """
-
-    # First find theta2 from (x2, y2) numerically (by Newton-Rapheson).
-    def f(theta):
-        return y2/x2 - (1-np.cos(theta))/(theta-np.sin(theta))
-    theta2 = newton(f, np.pi/2)
-
-    # The radius of the circle generating the cycloid.
-    R = y2 / (1 - np.cos(theta2))
-
-    theta = np.linspace(0, theta2, N)
-    x = R * (theta - np.sin(theta))
-    y = R * (1 - np.cos(theta))
-
-    # The time of travel
-    T = theta2 * np.sqrt(R / g)
-    print('T(cycloid) = {:.3f}'.format(T))
-    return x, y, T
+arr = np.zeros([ATP, 3], dtype=object)  # array with all the points and given indices to track manually
+arr_time = np.zeros([3, 9], dtype=object)  # read the README to get the structure
+set_start_point = aarr([0,10]) #the set start point for the computation
+set_end_point = aarr([10,0]) #the set end point for the computation
+arr[0] = [set_start_point, 0,0]
+arr[1] = [set_end_point, 0,0]
 
 
+'''defining all the functions'''
+def sqr(var) -> float: # function that returns the square of a float
+    return var ** 2
+
+
+    #
+def vec(start_point, end_point) -> np.array: # function that returns the vector between two points
+    result = end_point - start_point
+    return result
+
+
+    #
+def mid_point(start_point, end_point) -> np.array: # function that returns the point directly in the middle of two points
+    def_point = start_point + 0.5 * vec(start_point, end_point)
+    return def_point
+
+
+    #
+def norm_vec(def_vec) -> np.array: # function that returns the normalized normal vector to a vector
+    def_norm_vec = np.array([float(-def_vec[0]), float(def_vec[1])]) / float(sqrt(sqr(def_vec[0]) + sqr(def_vec[1]))) # normalvector to def_vec
+    return def_norm_vec
+
+
+    #
+def sort_arr() -> None: # function that just sorts the array arr depending on the x-coordinate
+    global arr_len
+    print(np.argsort(arr[:arr_len])[1,0])
+    '''
+    
+    arr[:arr_len] = np.sort(arr[:arr_len], 0)
+    for def_index, def_arr_line in enumerate(arr[1:arr_len]):
+        arr[def_index, 1] = physics(arr[def_index - 1, 1], vec(arr[def_index - 1, 0], def_arr_line[1]) + arr[def_index - 1, [1]])[0]
+        arr[def_index, 2] = physics(arr[def_index - 1, 1], vec(arr[def_index - 1, 0], def_arr_line[1]))[1]
+    '''
+
+
+    #
+def physics(start_vel, def_vec, *debugger) -> np.array: # function that calculates the time taken for a point to roll down a vector
+    if debugger:
+        print(f'this is the {debugger} physics term')
+    if start_vel > 0:
+        print('physics: the starting velocity doesnt make sense here')
+        return
+    delta_x, delta_y = def_vec # setting the differences in coordinates
+    delta_s = sqrt(sqr(delta_x) + sqr(delta_y)) # setting the length of the vector
+    acceleration_angle_factor = sqrt(1 / (1 + sqr(delta_x / delta_y))) # factor for the acceleration based on the rolling angle
+    a_coefficient = ((-0.5) * g * acceleration_angle_factor * (delta_y / sqrt(delta_y ** 2)))  # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
+    b_coefficient = start_vel
+    c_coefficient = delta_s
+    possible_time_arr = np.roots([a_coefficient, b_coefficient, c_coefficient])
+    if type(possible_time_arr[0]) == np.complex128 or type(possible_time_arr[1]) == np.complex128:
+        print('physics: problem with the imaginary unity',  debugger)
+        return
+    possible_time_arr = possible_time_arr[np.argsort(possible_time_arr)]
+    if possible_time_arr[1] < 0:
+        print('physics: both t values are negative',  debugger)
+        print(possible_time_arr)
+        return
+    if possible_time_arr[0] > 0:
+        print('physics: both t values are positive',  debugger)
+        print(possible_time_arr)
+        return
+    time_result = possible_time_arr[1]
+    velocity_result = start_vel + a_coefficient * time_result
+    return aarr([time_result, velocity_result])
+
+
+    #
+def calc_arr_time0(def_vel, start_point, end_point) -> None: # function that calculates the first and second row of
+    def_vel = def_vel
+    start_point, end_point = start_point, end_point
+    def_mid_point = mid_point(start_point, end_point)
+    def_vec = vec(start_point, end_point)
+    def_norm_vec = norm_vec(def_vec)
+    new_point = def_mid_point
+    def_time1, def_vel1 = physics(def_vel, vec(start_point, new_point))
+    def_time2, def_vel2 = physics(def_vel1, vec(new_point, end_point))
+    arr_time[0] = [def_vel, # start velocity
+                   start_point, # start point
+                   end_point, # end point
+                   def_mid_point, # middle point
+                   def_norm_vec, # normal vector
+                   0, # normal vector factor
+                   def_time1+def_time2, # time taken
+                   def_vel1, # end velocity
+                   new_point] # newly created point
+    arr_time[1] = arr_time[0]
+
+
+    #
+def comp_time() -> None:
+    global changes
+    global sign
+    while changes < 2:
+        calc_arr_time2(optimizing_factor)
+        if arr_time[2,6] < arr_time[1,6]:
+            arr_time[1] = arr_time[2]
+        else:
+            changes += 1
+            sign = sign * -1
+    #print(arr_time, '\n' * 2)
+
+
+    #
+def calc_arr_time2(def_index) -> None: # function that calculates the third row of arr_time based on the second row
+    global sign
+    global arr_time
+    start_vel = arr_time[1,0]
+    (start_point, end_point) = arr_time[1, 1:3]
+    def_mid_point = arr_time[1,3]
+    def_norm_vec = arr_time[1,4]
+    def_norm_vec_fac = arr_time[1,5] + optimizing_factor
+    new_point = def_mid_point + def_norm_vec * def_norm_vec_fac * sign
+    def_time1, def_vel1 = physics(start_vel, vec(start_point, new_point))
+    def_time2, def_vel2 = physics(def_vel1, vec(new_point, end_point))
+
+    arr_time[2] = [start_vel,
+                   start_point,
+                   end_point,
+                   def_mid_point,
+                   def_norm_vec,
+                   def_norm_vec_fac,
+                   def_time1+def_time2,
+                   def_vel2,
+                   new_point]
+
+
+    #
+def optimizing(vel, start_point, end_point):
+    global changes
+    global arr_len
+    changes = 0  # counts the amount of changes in the sign of the norm_vec_fac
+    optimizing_factor = 0.001 * (vec(start_point, end_point) * vec(start_point, end_point)) # the difference in the norm_vec's length per step'
+    calc_arr_time0(vel, start_point, end_point)
+    comp_time()
+    arr[arr_len] = (arr_time[1,8], 0, 0)
+    arr_len += 1
+    sort_arr()
+
+
+'''defining the variables that depend on functions'''
+global_vec = vec(set_start_point, set_end_point) # setting the boundary vector for easy debugging
+optimizing_factor = np.dot(global_vec, global_vec) * 0.0001
 
 
 
+calc_arr_time0(0,set_start_point, set_end_point)
+#print(arr[:arr_len])
+
+optimizing(0, set_start_point, set_end_point)
+#print('\n' * 2, arr_time[0,6], ' original time \n', arr_time[2,6], ' new time \n')
+#print(arr)
 
 
-
-
-
-for curve in ('cycloid'):
-    x, y, T = globals()[curve](-10, -10)
-    ax.plot(x, y, lw=4, alpha=0.5, label='{}: {:.3f} s'.format(curve, T))
-ax.legend()
-
-ax.set_xlabel('$x$')
-ax.set_xlabel('$y$')
-ax.set_xlim(0, 1)
-ax.set_ylim(0.8, 0)
-plt.show()
+end_time = time.perf_counter()
+elapsed_time = end_time - start_time
+print(f"Elapsed time: {elapsed_time} seconds")
