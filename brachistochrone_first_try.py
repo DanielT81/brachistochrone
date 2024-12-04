@@ -163,7 +163,8 @@ def second_layer():
     global arr
     last_vel = 0
     amount_new_points = arr_len - 1 # the amount of new points needing to be created within every second layer iteration
-    
+    for def_index, def_point in enumerate(arr[:amount_new_points]):
+
 
 
 

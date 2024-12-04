@@ -9,4 +9,4 @@ arr_sorted = sorted(arr, key=lambda x: x[0].tolist())  # Convert the numpy array
 # Convert back to a numpy array if needed
 arr_sorted = np.array(arr_sorted, dtype=object)
 
-print(arr_sorted)
+print('moo')
