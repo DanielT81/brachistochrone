@@ -20,7 +20,8 @@ arr_time = np.zeros([3, 9], dtype=object)  # read the README to get the structur
 set_start_point = aarr([0,10]) #the set start point for the computation
 set_end_point = aarr([10,0]) #the set end point for the computation
 arr[0] = set_start_point
-arr[1] = set_end_point
+arr[2] = set_end_point
+arr[1] = [3.91105556, 3.91105556]
 
 
 '''defining all the functions'''
@@ -92,6 +93,7 @@ def calc_arr_time0(def_vel, start_point, end_point) -> None: # function that cal
     start_point, end_point = start_point, end_point
     def_mid_point = mid_point(start_point, end_point)
     def_vec = vec(start_point, end_point)
+    print(f'def_vec = {def_vec} \n start_point = {start_point} \n end_point ? {end_point}')
     def_norm_vec = norm_vec(def_vec)
     new_point = def_mid_point
     def_time1, def_vel1 = physics(def_vel, vec(start_point, new_point))
@@ -133,7 +135,7 @@ def calc_arr_time2(def_index) -> None: # function that calculates the third row 
 
 
     #
-def optimizing() -> None:
+def optimizing() -> None: # function that optimizes arr_time[1]
     global changes
     global sign
     while changes < 2:
@@ -143,6 +145,7 @@ def optimizing() -> None:
         else:
             changes += 1
             sign = sign * -1
+    return arr_time[1,7] # return the end velocity so it can be used later on
 
 
     #
@@ -152,10 +155,11 @@ def third_layer(vel, start_point, end_point):
     changes = 0  # counts the amount of changes in the sign of the norm_vec_fac
     optimizing_factor = 0.001 * (vec(start_point, end_point) * vec(start_point, end_point)) # the difference in the norm_vec's length per step'
     calc_arr_time0(vel, start_point, end_point) # compute the 
-    optimizing() # compute the optimal arr_time[2]
+    def_return_vel = optimizing() # compute the optimal arr_time[2]
     arr[arr_len] = arr_time[1,8] # adding the  new point
     arr_len += 1 # changing the length of arr because a new point got added
     sort_arr() # sort the array afterwards
+    return def_return_vel # the velocity at the end of the optimization
 
 
     #
@@ -163,7 +167,9 @@ def second_layer():
     global arr
     last_vel = 0
     amount_new_points = arr_len - 1 # the amount of new points needing to be created within every second layer iteration
-    for def_index, def_point in enumerate(arr[:amount_new_points]):
+    for def_index, def_arr in enumerate(arr[:amount_new_points]):
+        print(arr[:6], '\n')
+        third_layer(last_vel, aarr([arr[def_index, 0],arr[def_index, 1]]), aarr([arr[def_index + 1, 0],arr[def_index + 1, 1]]))
 
 
 
@@ -176,8 +182,8 @@ optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor 
 
 
 
-
-third_layer(0, set_start_point, set_end_point)
+second_layer()
+#third_layer(0, set_start_point, set_end_point)
 print(arr)
 
 
