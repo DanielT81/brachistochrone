@@ -13,13 +13,14 @@ index_number = 2 # setting the current number of indices
 AIP = 4  # amount of iterations to create new points
 ATP = 2 ** AIP + 1  # amount of total points in the system
 arr_len = 2  # length of the non-zero values
+last_vel = 0 # the end velocity of the previous point
 
-arr = np.zeros([ATP, 3], dtype=object)  # array with all the points and given indices to track manually
+arr = np.zeros([ATP,2])  # array with all the points and given indices to track manually
 arr_time = np.zeros([3, 9], dtype=object)  # read the README to get the structure
 set_start_point = aarr([0,10]) #the set start point for the computation
 set_end_point = aarr([10,0]) #the set end point for the computation
-arr[0] = [set_start_point, 0,0]
-arr[1] = [set_end_point, 0,0]
+arr[0] = set_start_point
+arr[1] = set_end_point
 
 
 '''defining all the functions'''
@@ -48,13 +49,10 @@ def norm_vec(def_vec) -> np.array: # function that returns the normalized normal
     #
 def sort_arr() -> None: # function that just sorts the array arr depending on the x-coordinate
     global arr_len
-    print(arr[:arr_len], '\n'*2, np.sort(arr[:arr_len]))
-    '''
-    arr[:arr_len] = np.sort(arr[:arr_len], 0)
-    for def_index, def_arr_line in enumerate(arr[1:arr_len]):
-        arr[def_index, 1] = physics(arr[def_index - 1, 1], vec(arr[def_index - 1, 0], def_arr_line[1]) + arr[def_index - 1, [1]])[0]
-        arr[def_index, 2] = physics(arr[def_index - 1, 1], vec(arr[def_index - 1, 0], def_arr_line[1]))[1]
-    '''
+    global arr
+    print(f'arr_len has the value {arr_len}')
+    sort_help = np.argsort(arr[:arr_len,0])
+    arr[:arr_len] = np.array(arr[:arr_len])[sort_help]
 
 
     #
@@ -111,20 +109,6 @@ def calc_arr_time0(def_vel, start_point, end_point) -> None: # function that cal
 
 
     #
-def comp_time() -> None:
-    global changes
-    global sign
-    while changes < 2:
-        calc_arr_time2(optimizing_factor)
-        if arr_time[2,6] < arr_time[1,6]:
-            arr_time[1] = arr_time[2]
-        else:
-            changes += 1
-            sign = sign * -1
-    print(arr_time, '\n' * 2)
-
-
-    #
 def calc_arr_time2(def_index) -> None: # function that calculates the third row of arr_time based on the second row
     global sign
     global arr_time
@@ -149,33 +133,53 @@ def calc_arr_time2(def_index) -> None: # function that calculates the third row 
 
 
     #
-def optimizing(vel, start_point, end_point):
+def optimizing() -> None:
+    global changes
+    global sign
+    while changes < 2:
+        calc_arr_time2(optimizing_factor)
+        if arr_time[2,6] < arr_time[1,6]:
+            arr_time[1] = arr_time[2]
+        else:
+            changes += 1
+            sign = sign * -1
+
+
+    #
+def third_layer(vel, start_point, end_point):
     global changes
     global arr_len
     changes = 0  # counts the amount of changes in the sign of the norm_vec_fac
     optimizing_factor = 0.001 * (vec(start_point, end_point) * vec(start_point, end_point)) # the difference in the norm_vec's length per step'
-    calc_arr_time0(vel, start_point, end_point)
-    comp_time()
-    arr[arr_len] = (arr_time[1,8], 0, 0)
-    arr_len += 1
-    sort_arr()
+    calc_arr_time0(vel, start_point, end_point) # compute the 
+    optimizing() # compute the optimal arr_time[2]
+    arr[arr_len] = arr_time[1,8] # adding the  new point
+    arr_len += 1 # changing the length of arr because a new point got added
+    sort_arr() # sort the array afterwards
+
+
+    #
+def second_layer():
+    global arr
+    last_vel = 0
+    amount_new_points = arr_len - 1 # the amount of new points needing to be created within every second layer iteration
+    
+
+
+
 
 
 '''defining the variables that depend on functions'''
 global_vec = vec(set_start_point, set_end_point) # setting the boundary vector for easy debugging
-optimizing_factor = np.dot(global_vec, global_vec) * 0.0001
+optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor for the normal vector
 
 
 
-calc_arr_time0(0,set_start_point, set_end_point)
-print(arr[:arr_len])
-np.sort(arr, 0)
 
-#optimizing(0, set_start_point, set_end_point)
-#print('\n' * 2, arr_time[0,6], ' original time \n', arr_time[2,6], ' new time \n')
-#print(arr)
+third_layer(0, set_start_point, set_end_point)
+print(arr)
 
 
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
-print(f"Elapsed time: {elapsed_time} seconds")
+print(f"\n \n Elapsed time: {elapsed_time} seconds")
