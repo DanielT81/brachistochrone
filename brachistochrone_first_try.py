@@ -10,7 +10,7 @@ changes = 0
 sign = -1
 g = -9.81
 index_number = 2 # setting the current number of indices
-ATI = 5  # amount of total iterations to create new points
+ATI = 3  # amount of total iterations to create new points
 ATP = 2 ** ATI + 1  # amount of total points in the system
 arr_len = 2  # length of the non-zero values
 last_vel = 0 # the end velocity of the previous point
@@ -190,10 +190,16 @@ optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor 
 
 
 first_layer()
-#third_layer(0, set_start_point, set_end_point)
+x = arr[:,0]
+y = arr[:,1]
 print('\n' *4, arr)
 
-
+plt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
+plt.xlabel('X-Achse')  # Beschriftung der X-Achse
+plt.ylabel('Y-Achse')  # Beschriftung der Y-Achse
+plt.title('Plot von n x 2 Array')  # Titel des Plots
+plt.grid(True)  # Gitterlinien anzeigen
+plt.show()
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
 print(f"\n \n Elapsed time: {elapsed_time} seconds")
