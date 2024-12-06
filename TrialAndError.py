@@ -9,16 +9,17 @@ start_time = time.perf_counter()  # to track the computation-time
 changes = 0
 sign = -1
 g = -9.81
-index_number = 2 # setting the current number of indices
-AIP = 4  # amount of iterations to create new points
-ATP = 2 ** AIP + 1  # amount of total points in the system
-arr_len = 2  # length of the non-zero values
+ATP = 10000 # amount of total points in the system
+set_start_point = [0,10] #the set start point for the computation
+set_end_point = [10,0] #the set end point for the computation
+initial_x_values = np.linspace(set_start_point[0], set_end_point[0], ATP)
+initial_y_values = np.linspace(set_start_point[1], set_end_point[1], ATP)
+arr = np.array([initial_x_values,initial_y_values]).transpose()
+print(arr)
 last_vel = 0 # the end velocity of the previous point
 
 arr = np.zeros([ATP,2])  # array with all the points and given indices to track manually
 arr_time = np.zeros([3, 9], dtype=object)  # read the README to get the structure
-set_start_point = aarr([0,10]) #the set start point for the computation
-set_end_point = aarr([10,0]) #the set end point for the computation
 arr[0] = set_start_point
 arr[1] = set_end_point
 
@@ -50,7 +51,7 @@ def norm_vec(def_vec) -> np.array: # function that returns the normalized normal
 def sort_arr() -> None: # function that just sorts the array arr depending on the x-coordinate
     global arr_len
     global arr
-    print(f'arr_len has the value {arr_len}')
+    #print(f'arr_len has the value {arr_len}')
     sort_help = np.argsort(arr[:arr_len,0])
     arr[:arr_len] = np.array(arr[:arr_len])[sort_help]
 
@@ -133,7 +134,7 @@ def calc_arr_time2(def_index) -> None: # function that calculates the third row 
 
 
     #
-def optimizing() -> None:
+def optimizing() -> None: # function that optimizes arr_time[1]
     global changes
     global sign
     while changes < 2:
@@ -143,6 +144,7 @@ def optimizing() -> None:
         else:
             changes += 1
             sign = sign * -1
+    return arr_time[1,7] # return the end velocity so it can be used later on
 
 
     #
@@ -151,35 +153,46 @@ def third_layer(vel, start_point, end_point):
     global arr_len
     changes = 0  # counts the amount of changes in the sign of the norm_vec_fac
     optimizing_factor = 0.001 * (vec(start_point, end_point) * vec(start_point, end_point)) # the difference in the norm_vec's length per step'
-    calc_arr_time0(vel, start_point, end_point) # compute the
-    optimizing() # compute the optimal arr_time[2]
+    calc_arr_time0(vel, start_point, end_point) # compute the original time that is to improve
+    def_return_vel = optimizing() # compute the optimal arr_time[2]
     arr[arr_len] = arr_time[1,8] # adding the  new point
     arr_len += 1 # changing the length of arr because a new point got added
-    sort_arr() # sort the array afterwards
+    #sort_arr() # sort the array afterwards
+    return def_return_vel # the velocity at the end of the optimization
 
 
     #
 def second_layer():
     global arr
+    global last_vel
     last_vel = 0
     amount_new_points = arr_len - 1 # the amount of new points needing to be created within every second layer iteration
+    for def_index, def_arr in enumerate(arr[:amount_new_points]):
+        third_layer(last_vel, aarr([arr[def_index, 0],arr[def_index, 1]]), aarr([arr[def_index + 1, 0],arr[def_index + 1, 1]]))
+    sort_arr()
 
+
+    #
+def first_layer():
+    for def_index in range(ATI):
+        second_layer()
 
 
 
 
 
 '''defining the variables that depend on functions'''
-global_vec = vec(set_start_point, set_end_point) # setting the boundary vector for easy debugging
-optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor for the normal vector
+#global_vec = vec(set_start_point, set_end_point) # setting the boundary vector for easy debugging
+#optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor for the normal vector
 
 
 
-
-third_layer(0, set_start_point, set_end_point)
-print(arr)
-
-
+#lt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
+#lt.xlabel('X-Achse')  # Beschriftung der X-Achse
+#lt.ylabel('Y-Achse')  # Beschriftung der Y-Achse
+#lt.title('Plot von n x 2 Array')  # Titel des Plots
+#lt.grid(True)  # Gitterlinien anzeigen
+#lt.show()
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
 print(f"\n \n Elapsed time: {elapsed_time} seconds")
