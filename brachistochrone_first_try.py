@@ -30,7 +30,7 @@ def sqr(var) -> float: # function that returns the square of a float
 
     #
 def vec(start_point, end_point) -> np.array: # function that returns the vector between two points
-    result = end_point - start_point
+    result = aarr(end_point) - aarr(start_point)
     return result
 
 
@@ -188,18 +188,21 @@ global_vec = vec(set_start_point, set_end_point) # setting the boundary vector f
 optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor for the normal vector
 
 
+(time1, vel1) = physics(0, aarr(vec([0,10],[10,0])))
+(time2, vel2) = physics(0, aarr(vec([0,10],[5,5])))
+(time3, vel3) = physics(vel2, aarr(vec([5,5],[10,0]))) + aarr([time2,0])
+print(f'time one: {time1} \n vel one: {vel1} \n time 3: {time3} \n vel 3: {vel3}')
+#first_layer()
+#x = arr[:,0]
+#y = arr[:,1]
+#print('\n' *4, arr)
 
-first_layer()
-x = arr[:,0]
-y = arr[:,1]
-print('\n' *4, arr)
-
-plt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
-plt.xlabel('X-Achse')  # Beschriftung der X-Achse
-plt.ylabel('Y-Achse')  # Beschriftung der Y-Achse
-plt.title('Plot von n x 2 Array')  # Titel des Plots
-plt.grid(True)  # Gitterlinien anzeigen
-plt.show()
+#plt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
+#plt.xlabel('X-Achse')  # Beschriftung der X-Achse
+#plt.ylabel('Y-Achse')  # Beschriftung der Y-Achse
+#plt.title('Plot von n x 2 Array')  # Titel des Plots
+#plt.grid(True)  # Gitterlinien anzeigen
+#plt.show()
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
 print(f"\n \n Elapsed time: {elapsed_time} seconds")
