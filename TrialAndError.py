@@ -46,13 +46,25 @@ def norm_vec(def_vec) -> np.ndarray: # function that returns the normalized norm
 
 
     #
-def abc_formular(def_a: float, def_b: float, def_c: float) -> float:
-    def_sol1 = (-def_d + sqrt(sqr(def_d) - 4 * def_c *def_e)) / (2 * def_c)
-    def_sol2 = (-def_d - sqrt(sqr(def_d) - 4 * def_c *def_e)) / (2 * def_c)
-    if type
+def abc_formular(def_a: float, def_b: float, def_c: float) -> float: # returns the smallest non-negative value
+    def_sol_time1 = (-def_d + sqrt(sqr(def_d) - 4 * def_c *def_e)) / (2 * def_c)
+    def_sol_time2 = (-def_d - sqrt(sqr(def_d) - 4 * def_c *def_e)) / (2 * def_c)
+    if def_sol_time1 and def_sol_time2 < 0:
+        print(f'{def_a}, {def_b}, {def_c} both make negative times)
+        break
+    if def_sol_time1 < 0:
+        return def_sol_time2
+    if def_sol_time2 < 0:
+        return def_sol_time1
+    if def_sol_time1 < def_sol_time2:
+        return def_sol_time1
+    else:
+        return def_sol_time2
+
+
+    #
 def physics(start_vel: float, def_start_point: np.ndarray, def_end_point: np.ndarray, *debugger) -> np.ndarray: # function that calculates the time taken for a
     # point to slide down a linear slope
-
     """
     :return [time_result, velocity_result] \n
     :def_start_point np.array \n
