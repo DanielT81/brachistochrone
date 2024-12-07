@@ -190,8 +190,13 @@ optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor 
 
 (time1, vel1) = physics(0, aarr(vec([0,10],[10,0])))
 (time2, vel2) = physics(0, aarr(vec([0,10],[5,5])))
-(time3, vel3) = physics(vel2, aarr(vec([5,5],[10,0]))) + aarr([time2,0])
-print(f'time 1: {time1} \n vel 1: {vel1} \n time 3: {time3} \n vel 3: {vel3}')
+(time3, vel3) = physics(vel2, aarr(vec([5,5],[10,0]))) - aarr([0, vel2])
+(time4, vel4) = (time2 + time3, vel2 + vel3)
+
+
+
+
+print(f'time 1: {time1} \n vel 1: {vel1} \n \n time 2: {time2} \n vel 2: {vel2} \n \n  time 3: {time3} \n vel 3: {vel3} \n \n time 4: {time4} \n vel 4: {vel4}')
 #first_layer()
 #x = arr[:,0]
 #y = arr[:,1]

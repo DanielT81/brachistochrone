@@ -18,8 +18,13 @@ last_vel = 0 # the end velocity of the previous point
 
 
 '''defining all the functions'''
-def sqr(var) -> float: # function that returns the square of a float
-    return var ** 2
+def sqr(def_var) -> float: # function that returns the square of a float
+    return def_var ** 2
+
+
+    #
+def cart_norm(def_vec) -> float: # function that puts out the cartesian norm for a vector
+    return sqrt(sqr(def_vec[0]) + sqr(def_vec[1]))
 
 
     #
@@ -41,10 +46,13 @@ def norm_vec(def_vec) -> np.ndarray: # function that returns the normalized norm
 
 
     #
-def physics(start_vel: float, def_start_point: np.ndarray, def_end_point: np.ndarray, *debugger) -> np.array: # function that calculates the time taken for a
-    # point
-    # to
-    # roll down a
+def abc_formular(def_a: float, def_b: float, def_c: float) -> float:
+    def_sol1 = (-def_d + sqrt(sqr(def_d) - 4 * def_c *def_e)) / (2 * def_c)
+    def_sol2 = (-def_d - sqrt(sqr(def_d) - 4 * def_c *def_e)) / (2 * def_c)
+    if type
+def physics(start_vel: float, def_start_point: np.ndarray, def_end_point: np.ndarray, *debugger) -> np.ndarray: # function that calculates the time taken for a
+    # point to slide down a linear slope
+
     """
     :return [time_result, velocity_result] \n
     :def_start_point np.array \n
@@ -58,12 +66,12 @@ def physics(start_vel: float, def_start_point: np.ndarray, def_end_point: np.nda
         return
     def_vec = vec(def_start_point, def_end_point)
     delta_x, delta_y = def_vec # setting the differences in coordinates
-    delta_s = sqrt(sqr(delta_x) + sqr(delta_y)) # setting the length of the vector
+    delta_s = cart_norm(def_vec) # setting the length of the vector
     acceleration_angle_factor = sqrt(1 / (1 + sqr(delta_x / delta_y))) # factor for the acceleration based on the rolling angle
-    a_coefficient = ((-0.5) * g * acceleration_angle_factor * (delta_y / sqrt(delta_y ** 2)))  # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
-    b_coefficient = start_vel
-    c_coefficient = delta_s
-    possible_time_arr = np.roots([a_coefficient, b_coefficient, c_coefficient])
+    c_coefficient = ((-0.5) * g * acceleration_angle_factor * (delta_y / sqrt(delta_y ** 2)))  # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
+    d_coefficient = start_vel
+    e_coefficient = delta_s
+    possible_time_arr = np.roots([c_coefficient, d_coefficient, e_coefficient])
     if type(possible_time_arr[0]) == np.complex128 or type(possible_time_arr[1]) == np.complex128:
         print('physics: problem with the imaginary unity',  debugger)
         return
