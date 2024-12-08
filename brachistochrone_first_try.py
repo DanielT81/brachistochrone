@@ -10,7 +10,7 @@ changes = 0
 sign = -1
 g = -9.81
 index_number = 2 # setting the current number of indices
-ATI = 3  # amount of total iterations to create new points
+ATI = 5  # amount of total iterations to create new points
 ATP = 2 ** ATI + 1  # amount of total points in the system
 arr_len = 2  # length of the non-zero values
 last_vel = 0 # the end velocity of the previous point
@@ -80,9 +80,9 @@ def physics(start_vel, def_vec, *debugger) -> np.array: # function that calculat
     if possible_time_arr[0] > 0:
         print('physics: both t values are positive',  debugger)
         print(possible_time_arr)
-        return
+        #return
     time_result = possible_time_arr[1]
-    velocity_result = start_vel + a_coefficient * time_result
+    velocity_result = start_vel + 2 * a_coefficient * time_result
     return aarr([time_result, velocity_result])
 
 
@@ -134,7 +134,7 @@ def calc_arr_time2(def_index) -> None: # function that calculates the third row 
 
 
     #
-def optimizing() -> None: # function that optimizes arr_time[1]
+def optimizing() -> np.ndarray: # function that optimizes arr_time[1]
     global changes
     global sign
     while changes < 2:
@@ -197,17 +197,17 @@ optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor 
 
 
 print(f'time 1: {time1} \n vel 1: {vel1} \n \n time 2: {time2} \n vel 2: {vel2} \n \n  time 3: {time3} \n vel 3: {vel3} \n \n time 4: {time4} \n vel 4: {vel4}')
-#first_layer()
-#x = arr[:,0]
-#y = arr[:,1]
-#print('\n' *4, arr)
+first_layer()
+x = arr[:,0]
+y = arr[:,1]
+print('\n' *4, arr)
 
-#plt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
-#plt.xlabel('X-Achse')  # Beschriftung der X-Achse
-#plt.ylabel('Y-Achse')  # Beschriftung der Y-Achse
-#plt.title('Plot von n x 2 Array')  # Titel des Plots
-#plt.grid(True)  # Gitterlinien anzeigen
-#plt.show()
+plt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
+plt.xlabel('X-Achse')  # Beschriftung der X-Achse
+plt.ylabel('Y-Achse')  # Beschriftung der Y-Achse
+plt.title('Plot von n x 2 Array')  # Titel des Plots
+plt.grid(True)  # Gitterlinien anzeigen
+plt.show()
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
 print(f"\n \n Elapsed time: {elapsed_time} seconds")

@@ -7,7 +7,7 @@ start_time = time.perf_counter()  # to track the computation-time
 
 '''defining all the variables'''
 changes = 0
-g = -9.81
+g = np.array([0,-9.81])
 ATP = 10000 # amount of total points in the system
 set_start_point = [0,10] #the set start point for the computation
 set_end_point = [10,0] #the set end point for the computation
@@ -46,24 +46,33 @@ def norm_vec(def_vec) -> np.ndarray: # function that returns the normalized norm
 
 
     #
-def abc_formular(def_a: float, def_b: float, def_c: float) -> float: # returns the smallest non-negative value
-    def_sol_time1 = (-def_d + sqrt(sqr(def_d) - 4 * def_c *def_e)) / (2 * def_c)
-    def_sol_time2 = (-def_d - sqrt(sqr(def_d) - 4 * def_c *def_e)) / (2 * def_c)
-    if def_sol_time1 and def_sol_time2 < 0:
-        print(f'{def_a}, {def_b}, {def_c} both make negative times)
-        break
-    if def_sol_time1 < 0:
-        return def_sol_time2
-    if def_sol_time2 < 0:
-        return def_sol_time1
-    if def_sol_time1 < def_sol_time2:
-        return def_sol_time1
-    else:
-        return def_sol_time2
+def abc_formular_vec(def_a: np.ndarray, def_b: np.ndarray, def_c: np.ndarray) -> list: # returns the possible times
+    def_sol_time1_1 = float((-def_b[0] + sqrt(sqr(def_b[0]) - 4 * def_a[0] *def_c[0])) / (2 * def_a[0]))
+    def_sol_time1_2 = float((-def_b[1] + sqrt(sqr(def_b[1]) - 4 * def_a[1] *def_c[1])) / (2 * def_a[1]))
+    def_sol_time2_1 = float((-def_b[0] - sqrt(sqr(def_b[0]) - 4 * def_a[0] *def_c[0])) / (2 * def_a[0]))
+    def_sol_time2_2 = float((-def_b[1] - sqrt(sqr(def_b[1]) - 4 * def_a[1] *def_c[1])) / (2 * def_a[1]))
+
+    print(f'{def_sol_time1_1} \n {def_sol_time1_2} \n {def_sol_time2_1} \n {def_sol_time2_2} \n')
+    print(f'{def_a} \n {def_b} \n {def_c}')
+    if abs(def_sol_time1_1 + def_sol_time1_2) > 0.001:
+        print(f'problem with def_sol_time difference')
+    if abs(def_sol_time2_1 + def_sol_time2_2) > 0.001:
+        print(f'problem with def_sol_time difference')
+    if def_sol_time1_1 - def_sol_time2_2 > 0.001:
+        print(f'def_sol_time1_1 and def_sol_time2_2 are not the same')
+    if def_sol_time1_2 - def_sol_time2_1 > 0.001:
+        print(f'def_sol_time1_2 and def_sol_time2_1 are not the same')
+    if def_sol_time1_1 < 0 and def_sol_time1_2 < 0:
+        print(f'{def_a}, {def_b}, {def_c} both make negative times')
+        return ...
+    #print('\n',[def_sol_time1_1,def_sol_time1_2,def_sol_time2_1,def_sol_time2_2], '\n')
+    return [def_sol_time1_1,def_sol_time1_2]
 
 
     #
-def physics(start_vel: float, def_start_point: np.ndarray, def_end_point: np.ndarray, *debugger) -> np.ndarray: # function that calculates the time taken for a
+def physics(def_start_vel: np.ndarray, def_start_point: np.ndarray, def_end_point: np.ndarray, *debugger) -> np.ndarray: # function that calculates the time
+    # taken
+    # for a
     # point to slide down a linear slope
     """
     :return [time_result, velocity_result] \n
@@ -73,32 +82,27 @@ def physics(start_vel: float, def_start_point: np.ndarray, def_end_point: np.nda
 
     if debugger:
         print(f'this is the {debugger} physics term')
-    if start_vel > 0:
+    if def_start_vel[0] < 0:
         print('physics: the starting velocity doesnt make sense here')
         return
     def_vec = vec(def_start_point, def_end_point)
     delta_x, delta_y = def_vec # setting the differences in coordinates
-    delta_s = cart_norm(def_vec) # setting the length of the vector
-    acceleration_angle_factor = sqrt(1 / (1 + sqr(delta_x / delta_y))) # factor for the acceleration based on the rolling angle
-    c_coefficient = ((-0.5) * g * acceleration_angle_factor * (delta_y / sqrt(delta_y ** 2)))  # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
-    d_coefficient = start_vel
-    e_coefficient = delta_s
-    possible_time_arr = np.roots([c_coefficient, d_coefficient, e_coefficient])
-    if type(possible_time_arr[0]) == np.complex128 or type(possible_time_arr[1]) == np.complex128:
-        print('physics: problem with the imaginary unity',  debugger)
-        return
-    possible_time_arr = possible_time_arr[np.argsort(possible_time_arr)]
-    if possible_time_arr[1] < 0:
-        print('physics: both t values are negative',  debugger)
-        print(possible_time_arr)
-        return
-    if possible_time_arr[0] > 0:
-        print('physics: both t values are positive',  debugger)
-        print(possible_time_arr)
-        return
-    time_result = possible_time_arr[1]
-    velocity_result = start_vel + a_coefficient * time_result
-    return aarr([time_result, velocity_result])
+    acceleration = (np.dot(g, def_vec) * (def_vec / cart_norm(def_vec))) # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
+    def_start_vel = def_start_vel
+    negative_def_vec = -def_vec
+    def_time_results = abc_formular_vec(0.5 * acceleration, def_start_vel, negative_def_vec)
+    if abs(def_time_results[0]) != def_time_results[0]:
+        def_time_result = def_time_results[1]
+    elif abs(def_time_results[1]) != def_time_results[1]:
+        def_time_result = def_time_results[0]
+    else:
+        if def_time_results[0] < def_time_results[1]:
+            def_time_result = def_time_results[0]
+        else:
+            def_time_result = def_time_results[1]
+    def_vel_result = def_start_vel + acceleration * def_time_result
+    print([def_time_result, def_vel_result])
+    return aarr([def_time_result, def_vel_result])
 
 
     #
@@ -119,7 +123,7 @@ def calc_arr_time(def_name) -> float:
 #global_vec = vec(set_start_point, set_end_point) # setting the boundary vector for easy debugging
 #optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor for the normal vector
 
-print(physics(0,aarr([0,10]), aarr([10,0])))
+print(physics(aarr([0,0]),aarr([0,10]), aarr([10,0])))
 calc_arr_time(arr)
 
 #lt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
