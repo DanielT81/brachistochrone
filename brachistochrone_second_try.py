@@ -16,31 +16,24 @@ initial_y_values = np.linspace(set_start_point[1], set_end_point[1], ATP)
 arr = np.array([initial_x_values,initial_y_values]).transpose()
 last_vel = 0 # the end velocity of the previous point
 
-
 '''defining all the functions'''
 def sqr(def_var) -> float: # function that returns the square of a float
 	return def_var ** 2
-
 def cart_norm(def_vec) -> float: # function that puts out the cartesian norm for a vector
 	return sqrt(sqr(def_vec[0]) + sqr(def_vec[1]))
-
 def vec(start_point, end_point) -> np.ndarray: # function that returns the vector between two points
 	result = end_point - start_point
 	return result
-
 def mid_point(start_point, end_point) -> np.ndarray: # function that returns the point directly in the middle of two points
 	def_point = start_point + 0.5 * vec(start_point, end_point)
 	return def_point
-
 def dot_product(def_vec1: np.ndarray, def_vec2: np.ndarray) -> np.ndarray:
 	x1_sum = def_vec1[0] * def_vec2[0]
 	x2_sum = def_vec1[1] * def_vec2[1]
 	return x1_sum + x2_sum
-
 def normal_vec(def_vec) -> np.ndarray: # function that returns the normalized normal vector to a vector
 	def_norm_vec = np.array([float(-def_vec[0]), float(def_vec[1])]) / float(sqrt(sqr(def_vec[0]) + sqr(def_vec[1]))) # normalvector to def_vec
 	return def_norm_vec
-
 def normalize_vec(def_vec) -> np.ndarray:
 	return def_vec / cart_norm(def_vec)
 def abc_formular_vec(def_a: np.ndarray, def_b: np.ndarray, def_c: np.ndarray) -> list: # returns the possible times
@@ -107,19 +100,20 @@ def physics(def_start_vel: np.ndarray, def_start_point: np.ndarray, def_end_poin
 			def_time_result = def_time_results[1]
 	def_vel_result = def_start_vel + half_acceleration * def_time_result * 0.5
 	print()
-	return aarr([def_time_result, def_vel_result], dtype=object)
+	return aarr([float(def_time_result), def_vel_result], dtype=object)
 
 
 #
 def calc_arr_time(def_name) -> float:
 	def_time = 0
-	def_vel = 0
+	def_vel = aarr([0,0])
 	for def_index in range(ATP-1):
 		(def_new_time, def_new_vel) = physics(def_vel, aarr(def_name[def_index]), aarr(def_name[def_index+1]))
 		print(def_time, def_vel)
 		def_time += def_new_time
-		def_vel += def_new_vel
-	print(def_time)
+		def_vel = def_new_vel
+	print(f'\n \n \n \n def_time = {def_time}')
+	print(f'def_new_vel = {def_new_vel}')
 
 
 
@@ -128,8 +122,8 @@ def calc_arr_time(def_name) -> float:
 #global_vec = vec(set_start_point, set_end_point) # setting the boundary vector for easy debugging
 #optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor for the normal vector
 
-print(physics(aarr([0,0]),aarr([0,10]), aarr([10,0])))
-#calc_arr_time(arr)
+#print(physics(aarr([0,0]),aarr([0,10]), aarr([10,0])))
+calc_arr_time(arr)
 
 #lt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
 #lt.xlabel('X-Achse')  # Beschriftung der X-Achse
