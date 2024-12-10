@@ -89,7 +89,7 @@ def physics(def_start_vel: np.ndarray, def_start_point: np.ndarray, def_end_poin
 	half_acceleration = 0.5 * (dot_product(g, normalize_vec(def_vec))) * normalize_vec(def_vec) # (normalize_vec(def_vec))) # - (1/2 * 0.1 (air drag
 	# coefficient) *
 	# area of
-	                           # the
+	# the
 	# object *
 	# velocity**2)
 	#print(half_acceleration,  normalize_vec(def_vec))
@@ -110,7 +110,7 @@ def physics(def_start_vel: np.ndarray, def_start_point: np.ndarray, def_end_poin
 	return aarr([def_time_result, def_vel_result], dtype=object)
 
 
-	#
+#
 def calc_arr_time(def_name) -> float:
 	def_time = 0
 	def_vel = 0
@@ -140,4 +140,3 @@ print(physics(aarr([0,0]),aarr([0,10]), aarr([10,0])))
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
 print(f"\n \n Elapsed time: {elapsed_time} seconds")
-
