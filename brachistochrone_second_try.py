@@ -140,3 +140,4 @@ print(physics(aarr([0,0]),aarr([0,10]), aarr([10,0])))
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
 print(f"\n \n Elapsed time: {elapsed_time} seconds")
+
