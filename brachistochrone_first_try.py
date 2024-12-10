@@ -195,19 +195,19 @@ optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor 
 
 
 
-
-print(f'time 1: {time1} \n vel 1: {vel1} \n \n time 2: {time2} \n vel 2: {vel2} \n \n  time 3: {time3} \n vel 3: {vel3} \n \n time 4: {time4} \n vel 4: {vel4}')
-first_layer()
-x = arr[:,0]
-y = arr[:,1]
-print('\n' *4, arr)
-
-plt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
-plt.xlabel('X-Achse')  # Beschriftung der X-Achse
-plt.ylabel('Y-Achse')  # Beschriftung der Y-Achse
-plt.title('Plot von n x 2 Array')  # Titel des Plots
-plt.grid(True)  # Gitterlinien anzeigen
-plt.show()
+print(f'time 1: {time1} \n vel 1: {vel1} \n \n time 2: {time2} \n vel 2: {vel2} ')
+print(f'\n  time 3: {time3} \n vel 3: {vel3} \n \n time 4: {time4} \n vel 4: {vel4}')
+#first_layer()
+#x = arr[:,0]
+#y = arr[:,1]
+#print('\n' *4, arr)
+#
+#plt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
+#plt.xlabel('X-Achse')  # Beschriftung der X-Achse
+#plt.ylabel('Y-Achse')  # Beschriftung der Y-Achse
+#plt.title('Plot von n x 2 Array')  # Titel des Plots
+#plt.grid(True)  # Gitterlinien anzeigen
+#plt.show()
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
 print(f"\n \n Elapsed time: {elapsed_time} seconds")

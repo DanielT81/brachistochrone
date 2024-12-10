@@ -87,7 +87,7 @@ def physics(def_start_vel: np.ndarray, def_start_point: np.ndarray, def_end_poin
         return
     def_vec = vec(def_start_point, def_end_point)
     delta_x, delta_y = def_vec # setting the differences in coordinates
-    acceleration = (np.dot(g, def_vec) * (def_vec / cart_norm(def_vec))) # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
+    half_acceleration = (np.dot(g, def_vec) * (def_vec / cart_norm(def_vec))) # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
     def_start_vel = def_start_vel
     negative_def_vec = -def_vec
     def_time_results = abc_formular_vec(0.5 * acceleration, def_start_vel, negative_def_vec)
@@ -100,7 +100,7 @@ def physics(def_start_vel: np.ndarray, def_start_point: np.ndarray, def_end_poin
             def_time_result = def_time_results[0]
         else:
             def_time_result = def_time_results[1]
-    def_vel_result = def_start_vel + acceleration * def_time_result
+    def_vel_result = def_start_vel + half_acceleration * def_time_result
     print([def_time_result, def_vel_result])
     return aarr([def_time_result, def_vel_result])
 
