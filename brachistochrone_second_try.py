@@ -43,8 +43,6 @@ def abc_formular_vec(def_a: np.ndarray, def_b: np.ndarray, def_c: np.ndarray) ->
 	def_sol_time2_1 = (-def_b[0] - sqrt(sqr(def_b[0]) - 4 * def_a[0] *def_c[0])) / (2 * def_a[0])
 	def_sol_time2_2 = (-def_b[1] - sqrt(sqr(def_b[1]) - 4 * def_a[1] *def_c[1])) / (2 * def_a[1])
 
-	#print(f'{def_sol_time1_1} \n {def_sol_time1_2} \n {def_sol_time2_1} \n {def_sol_time2_2} \n')
-
 	if abs(def_sol_time1_1 + def_sol_time1_2) > 0.001:
 		print(f'problem with def_sol_time difference')
 	if abs(def_sol_time2_1 + def_sol_time2_2) > 0.001:
