@@ -8,13 +8,14 @@ start_time = time.perf_counter()  # to track the computation-time
 '''defining all the variables'''
 changes = 0
 g = np.array([0,-9.81])
-ATP = 10000 # amount of total points in the system
-set_start_point = [0,10] #the set start point for the computation
-set_end_point = [10,0] #the set end point for the computation
+ATP = 1000 # amount of total points in the system
+set_start_point = aarr([0,30]) #the set start point for the computation
+set_end_point = aarr([10,0]) #the set end point for the computation
 initial_x_values = np.linspace(set_start_point[0], set_end_point[0], ATP)
 initial_y_values = np.linspace(set_start_point[1], set_end_point[1], ATP)
 arr = np.array([initial_x_values,initial_y_values]).transpose()
 last_vel = 0 # the end velocity of the previous point
+test_val = 0
 
 '''defining all the functions'''
 def sqr(def_var) -> float: # function that returns the square of a float
@@ -32,7 +33,7 @@ def dot_product(def_vec1: np.ndarray, def_vec2: np.ndarray) -> np.ndarray:
 	x2_sum = def_vec1[1] * def_vec2[1]
 	return x1_sum + x2_sum
 def normal_vec(def_vec) -> np.ndarray: # function that returns the normalized normal vector to a vector
-	def_norm_vec = np.array([float(-def_vec[0]), float(def_vec[1])]) / float(sqrt(sqr(def_vec[0]) + sqr(def_vec[1]))) # normalvector to def_vec
+	def_norm_vec = normalize_vec(np.array([float(-def_vec[0]), float(def_vec[1])])) # normalvector to def_vec
 	return def_norm_vec
 def normalize_vec(def_vec) -> np.ndarray:
 	return def_vec / cart_norm(def_vec)
@@ -43,6 +44,8 @@ def abc_formular_vec(def_a: np.ndarray, def_b: np.ndarray, def_c: np.ndarray) ->
 	def_sol_time2_1 = (-def_b[0] - sqrt(sqr(def_b[0]) - 4 * def_a[0] *def_c[0])) / (2 * def_a[0])
 	def_sol_time2_2 = (-def_b[1] - sqrt(sqr(def_b[1]) - 4 * def_a[1] *def_c[1])) / (2 * def_a[1])
 
+	print(f'def_sol_time1_1 = {def_sol_time1_1} \n def_sol_time1_2 = {def_sol_time1_2} \n def_sol_time2_1 = {def_sol_time2_1} \n def_sol_time2_2 = '
+	      f'{def_sol_time2_2}')
 	if abs(def_sol_time1_1 + def_sol_time1_2) > 0.001:
 		print(f'problem with def_sol_time difference')
 	if abs(def_sol_time2_1 + def_sol_time2_2) > 0.001:
@@ -76,7 +79,7 @@ def physics(def_start_vel: np.ndarray, def_start_point: np.ndarray, def_end_poin
 		return
 	def_vec = vec(def_start_point, def_end_point)
 	#delta_x, delta_y = def_vec # setting the differences in coordinates
-	print(g, normalize_vec(def_vec), '\n', (dot_product(g, normalize_vec(def_vec))),'\n')
+	#print('within physics is', g, (dot_product(g, normalize_vec(def_vec))),'\n')
 	half_acceleration = 0.5 * (dot_product(g, normalize_vec(def_vec))) * normalize_vec(def_vec) # (normalize_vec(def_vec))) # - (1/2 * 0.1 (air drag
 	# coefficient) *
 	# area of
@@ -97,12 +100,12 @@ def physics(def_start_vel: np.ndarray, def_start_point: np.ndarray, def_end_poin
 		else:
 			def_time_result = def_time_results[1]
 	def_vel_result = def_start_vel + half_acceleration * def_time_result * 0.5
-	print()
 	return aarr([float(def_time_result), def_vel_result], dtype=object)
 
 
 #
 def calc_arr_time(def_name) -> float:
+	global test_val
 	def_time = 0
 	def_vel = aarr([0,0])
 	for def_index in range(ATP-1):
@@ -110,8 +113,25 @@ def calc_arr_time(def_name) -> float:
 		print(def_time, def_vel)
 		def_time += def_new_time
 		def_vel = def_new_vel
-	print(f'\n \n \n \n def_time = {def_time}')
-	print(f'def_new_vel = {def_new_vel}')
+	test_val = def_time
+	print(f'\n \n \n \ndef_time total = {def_time}')
+	print(f'def_vel total = {def_vel}')
+	return [def_time, def_vel]
+
+
+	#
+def move_random_point(def_name1: np.ndarray, def_name2: np.ndarray) -> None:
+	def_index = np.random.randint(1, ATP - 1)
+	def_old_point = def_name1[def_index]
+	def_vec = vec(def_name1[def_index-1], def_name1[def_index+1])
+	def_norm_vec = normal_vec(def_vec)
+	def_new_point = def_old_point + def_norm_vec * 0.001 * np.random.choice([1,-1])
+	def_name2[def_index] = def_new_point
+
+
+	#
+
+
 
 
 
@@ -122,7 +142,8 @@ def calc_arr_time(def_name) -> float:
 
 #print(physics(aarr([0,0]),aarr([0,10]), aarr([10,0])))
 calc_arr_time(arr)
-
+print(f'\n \n \nphysics term normally is {physics(aarr([0,0]), set_start_point, set_end_point)}')
+print(test_val / physics(aarr([0,0]), set_start_point, set_end_point)[0] - 1.9992130052793873)
 #lt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
 #lt.xlabel('X-Achse')  # Beschriftung der X-Achse
 #lt.ylabel('Y-Achse')  # Beschriftung der Y-Achse

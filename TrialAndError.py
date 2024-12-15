@@ -7,131 +7,209 @@ start_time = time.perf_counter()  # to track the computation-time
 
 '''defining all the variables'''
 changes = 0
-g = np.array([0,-9.81])
-ATP = 10000 # amount of total points in the system
-set_start_point = [0,10] #the set start point for the computation
-set_end_point = [10,0] #the set end point for the computation
-initial_x_values = np.linspace(set_start_point[0], set_end_point[0], ATP)
-initial_y_values = np.linspace(set_start_point[1], set_end_point[1], ATP)
-arr = np.array([initial_x_values,initial_y_values]).transpose()
+sign = -1
+g = -9.81
+index_number = 2 # setting the current number of indices
+ATI = 5  # amount of total iterations to create new points
+ATP = 2 ** ATI + 1  # amount of total points in the system
+arr_len = 2  # length of the non-zero values
 last_vel = 0 # the end velocity of the previous point
+
+arr = np.zeros([ATP,2])  # array with all the points and given indices to track manually
+arr_time = np.zeros([3, 9], dtype=object)  # read the README to get the structure
+set_start_point = aarr([0,10]) #the set start point for the computation
+set_end_point = aarr([10,0]) #the set end point for the computation
+arr[0] = set_start_point
+arr[1] = set_end_point
+all_points = np.array([np.linspace(set_start_point[0], set_end_point[0], ATP), np.linspace(set_start_point[1], set_end_point[1], ATP)])
+print(all_points)
 
 
 '''defining all the functions'''
-def sqr(def_var) -> float: # function that returns the square of a float
-    return def_var ** 2
+def sqr(var) -> float: # function that returns the square of a float
+    return var ** 2
 
 
     #
-def cart_norm(def_vec) -> float: # function that puts out the cartesian norm for a vector
-    return sqrt(sqr(def_vec[0]) + sqr(def_vec[1]))
-
-
-    #
-def vec(start_point, end_point) -> np.ndarray: # function that returns the vector between two points
-    result = end_point - start_point
+def vec(start_point, end_point) -> np.array: # function that returns the vector between two points
+    result = aarr(end_point) - aarr(start_point)
     return result
 
 
     #
-def mid_point(start_point, end_point) -> np.ndarray: # function that returns the point directly in the middle of two points
+def mid_point(start_point, end_point) -> np.array: # function that returns the point directly in the middle of two points
     def_point = start_point + 0.5 * vec(start_point, end_point)
     return def_point
 
 
     #
-def norm_vec(def_vec) -> np.ndarray: # function that returns the normalized normal vector to a vector
+def norm_vec(def_vec) -> np.array: # function that returns the normalized normal vector to a vector
     def_norm_vec = np.array([float(-def_vec[0]), float(def_vec[1])]) / float(sqrt(sqr(def_vec[0]) + sqr(def_vec[1]))) # normalvector to def_vec
     return def_norm_vec
 
 
     #
-def abc_formular_vec(def_a: np.ndarray, def_b: np.ndarray, def_c: np.ndarray) -> list: # returns the possible times
-    def_sol_time1_1 = float((-def_b[0] + sqrt(sqr(def_b[0]) - 4 * def_a[0] *def_c[0])) / (2 * def_a[0]))
-    def_sol_time1_2 = float((-def_b[1] + sqrt(sqr(def_b[1]) - 4 * def_a[1] *def_c[1])) / (2 * def_a[1]))
-    def_sol_time2_1 = float((-def_b[0] - sqrt(sqr(def_b[0]) - 4 * def_a[0] *def_c[0])) / (2 * def_a[0]))
-    def_sol_time2_2 = float((-def_b[1] - sqrt(sqr(def_b[1]) - 4 * def_a[1] *def_c[1])) / (2 * def_a[1]))
-
-    print(f'{def_sol_time1_1} \n {def_sol_time1_2} \n {def_sol_time2_1} \n {def_sol_time2_2} \n')
-    print(f'{def_a} \n {def_b} \n {def_c}')
-    if abs(def_sol_time1_1 + def_sol_time1_2) > 0.001:
-        print(f'problem with def_sol_time difference')
-    if abs(def_sol_time2_1 + def_sol_time2_2) > 0.001:
-        print(f'problem with def_sol_time difference')
-    if def_sol_time1_1 - def_sol_time2_2 > 0.001:
-        print(f'def_sol_time1_1 and def_sol_time2_2 are not the same')
-    if def_sol_time1_2 - def_sol_time2_1 > 0.001:
-        print(f'def_sol_time1_2 and def_sol_time2_1 are not the same')
-    if def_sol_time1_1 < 0 and def_sol_time1_2 < 0:
-        print(f'{def_a}, {def_b}, {def_c} both make negative times')
-        return ...
-    #print('\n',[def_sol_time1_1,def_sol_time1_2,def_sol_time2_1,def_sol_time2_2], '\n')
-    return [def_sol_time1_1,def_sol_time1_2]
+def sort_arr() -> None: # function that just sorts the array arr depending on the x-coordinate
+    global arr_len
+    global arr
+    print(f'arr_len has the value {arr_len}')
+    sort_help = np.argsort(arr[:arr_len,0])
+    arr[:arr_len] = np.array(arr[:arr_len])[sort_help]
 
 
     #
-def physics(def_start_vel: np.ndarray, def_start_point: np.ndarray, def_end_point: np.ndarray, *debugger) -> np.ndarray: # function that calculates the time
-    # taken
-    # for a
-    # point to slide down a linear slope
-    """
-    :return [time_result, velocity_result] \n
-    :def_start_point np.array \n
-    :def_end_point np.array
-    """
-
+def physics(start_vel, def_vec, *debugger) -> np.array: # function that calculates the time taken for a point to roll down a vector
     if debugger:
         print(f'this is the {debugger} physics term')
-    if def_start_vel[0] < 0:
+    if start_vel > 0:
         print('physics: the starting velocity doesnt make sense here')
         return
-    def_vec = vec(def_start_point, def_end_point)
     delta_x, delta_y = def_vec # setting the differences in coordinates
-    half_acceleration = (np.dot(g, def_vec) * (def_vec / cart_norm(def_vec))) # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
-    def_start_vel = def_start_vel
-    negative_def_vec = -def_vec
-    def_time_results = abc_formular_vec(0.5 * acceleration, def_start_vel, negative_def_vec)
-    if abs(def_time_results[0]) != def_time_results[0]:
-        def_time_result = def_time_results[1]
-    elif abs(def_time_results[1]) != def_time_results[1]:
-        def_time_result = def_time_results[0]
-    else:
-        if def_time_results[0] < def_time_results[1]:
-            def_time_result = def_time_results[0]
-        else:
-            def_time_result = def_time_results[1]
-    def_vel_result = def_start_vel + half_acceleration * def_time_result
-    print([def_time_result, def_vel_result])
-    return aarr([def_time_result, def_vel_result])
+    delta_s = sqrt(sqr(delta_x) + sqr(delta_y)) # setting the length of the vector
+    acceleration_angle_factor = sqrt(1 / (1 + sqr(delta_x / delta_y))) # factor for the acceleration based on the rolling angle
+    a_coefficient = ((-0.5) * g * acceleration_angle_factor * (delta_y / sqrt(delta_y ** 2)))  # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
+    b_coefficient = start_vel
+    c_coefficient = delta_s
+    possible_time_arr = np.roots([a_coefficient, b_coefficient, c_coefficient])
+    if type(possible_time_arr[0]) == np.complex128 or type(possible_time_arr[1]) == np.complex128:
+        print('physics: problem with the imaginary unity',  debugger)
+        return
+    possible_time_arr = possible_time_arr[np.argsort(possible_time_arr)]
+    if possible_time_arr[1] < 0:
+        print('physics: both t values are negative',  debugger)
+        print(possible_time_arr)
+        return
+    if possible_time_arr[0] > 0:
+        print('physics: both t values are positive',  debugger)
+        print(possible_time_arr)
+        #return
+    time_result = possible_time_arr[1]
+    velocity_result = start_vel + 2 * a_coefficient * time_result
+    return aarr([time_result, velocity_result])
 
 
     #
-def calc_arr_time(def_name) -> float:
-    def_time = 0
-    def_vel = 0
-    for def_index in range(ATP-1):
-        (def_new_time, def_new_vel) = physics(def_vel, aarr(def_name[def_index]), aarr(def_name[def_index+1]))
-        print(def_time, def_vel)
-        def_time += def_new_time
-        def_vel += def_new_vel
-    print(def_time)
+def calc_arr_time0(def_vel, start_point, end_point) -> None: # function that calculates the first and second row of
+    def_vel = def_vel
+    start_point, end_point = start_point, end_point
+    def_mid_point = mid_point(start_point, end_point)
+    def_vec = vec(start_point, end_point)
+    #print(f'def_vec = {def_vec} \n start_point = {start_point} \n end_point ? {end_point}')
+    def_norm_vec = norm_vec(def_vec)
+    new_point = def_mid_point
+    def_time1, def_vel1 = physics(def_vel, vec(start_point, new_point))
+    def_time2, def_vel2 = physics(def_vel1, vec(new_point, end_point))
+    arr_time[0] = [def_vel, # start velocity
+                   start_point, # start point
+                   end_point, # end point
+                   def_mid_point, # middle point
+                   def_norm_vec, # normal vector
+                   0, # normal vector factor
+                   def_time1+def_time2, # time taken
+                   def_vel1, # end velocity
+                   new_point] # newly created point
+    arr_time[1] = arr_time[0]
+
+
+    #
+def calc_arr_time2(def_index) -> None: # function that calculates the third row of arr_time based on the second row
+    global sign
+    global arr_time
+    start_vel = arr_time[1,0]
+    (start_point, end_point) = arr_time[1, 1:3]
+    def_mid_point = arr_time[1,3]
+    def_norm_vec = arr_time[1,4]
+    def_norm_vec_fac = arr_time[1,5] + optimizing_factor
+    new_point = def_mid_point + def_norm_vec * def_norm_vec_fac * sign
+    def_time1, def_vel1 = physics(start_vel, vec(start_point, new_point))
+    def_time2, def_vel2 = physics(def_vel1, vec(new_point, end_point))
+
+    arr_time[2] = [start_vel,
+                   start_point,
+                   end_point,
+                   def_mid_point,
+                   def_norm_vec,
+                   def_norm_vec_fac,
+                   def_time1+def_time2,
+                   def_vel2,
+                   new_point]
+
+
+    #
+def optimizing() -> np.ndarray: # function that optimizes arr_time[1]
+    global changes
+    global sign
+    while changes < 2:
+        calc_arr_time2(optimizing_factor)
+        if arr_time[2,6] < arr_time[1,6]:
+            arr_time[1] = arr_time[2]
+        else:
+            changes += 1
+            sign = sign * -1
+    #print(arr_time)
+    return arr_time[1,7] # return the end velocity so it can be used later on
+
+
+    #
+def third_layer(vel, start_point, end_point):
+    global changes
+    global arr_len
+    changes = 0  # counts the amount of changes in the sign of the norm_vec_fac
+    optimizing_factor = 0.001 * (vec(start_point, end_point) * vec(start_point, end_point)) # the difference in the norm_vec's length per step'
+    calc_arr_time0(vel, start_point, end_point) # compute the original time that is to improve
+    def_return_vel = optimizing() # compute the optimal arr_time[2]
+    arr[arr_len] = arr_time[1,8] # adding the  new point
+    arr_len += 1 # changing the length of arr because a new point got added
+    #sort_arr() # sort the array afterwards
+    return def_return_vel # the velocity at the end of the optimization
+
+
+    #
+def second_layer():
+    global arr
+    global last_vel
+    last_vel = 0
+    amount_new_points = arr_len - 1 # the amount of new points needing to be created within every second layer iteration
+    for def_index, def_arr in enumerate(arr[:amount_new_points]):
+        #print(f'{def_index} is def_index \n and {arr[:amount_new_points+2]} is the array \n')
+        third_layer(last_vel, aarr([arr[def_index, 0],arr[def_index, 1]]), aarr([arr[def_index + 1, 0],arr[def_index + 1, 1]]))
+    sort_arr()
+
+
+    #
+def first_layer():
+    for def_index in range(ATI):
+        second_layer()
+
 
 
 
 
 '''defining the variables that depend on functions'''
-#global_vec = vec(set_start_point, set_end_point) # setting the boundary vector for easy debugging
-#optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor for the normal vector
+global_vec = vec(set_start_point, set_end_point) # setting the boundary vector for easy debugging
+optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor for the normal vector
 
-print(physics(aarr([0,0]),aarr([0,10]), aarr([10,0])))
-calc_arr_time(arr)
 
-#lt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
-#lt.xlabel('X-Achse')  # Beschriftung der X-Achse
-#lt.ylabel('Y-Achse')  # Beschriftung der Y-Achse
-#lt.title('Plot von n x 2 Array')  # Titel des Plots
-#lt.grid(True)  # Gitterlinien anzeigen
-#lt.show()
+(time1, vel1) = physics(0, aarr(vec([0,10],[10,0])))
+(time2, vel2) = physics(0, aarr(vec([0,10],[5,5])))
+(time3, vel3) = physics(vel2, aarr(vec([5,5],[10,0]))) - aarr([0, vel2])
+(time4, vel4) = (time2 + time3, vel2 + vel3)
+
+
+
+print(f'time 1: {time1} \n vel 1: {vel1} \n \n time 2: {time2} \n vel 2: {vel2} ')
+print(f'\n  time 3: {time3} \n vel 3: {vel3} \n \n time 4: {time4} \n vel 4: {vel4}')
+#first_layer()
+#x = arr[:,0]
+#y = arr[:,1]
+#print('\n' *4, arr)
+#
+#plt.plot(x, y, marker='o')  # marker='o' zeigt die Punkte an
+#plt.xlabel('X-Achse')  # Beschriftung der X-Achse
+#plt.ylabel('Y-Achse')  # Beschriftung der Y-Achse
+#plt.title('Plot von n x 2 Array')  # Titel des Plots
+#plt.grid(True)  # Gitterlinien anzeigen
+#plt.show()
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
 print(f"\n \n Elapsed time: {elapsed_time} seconds")
