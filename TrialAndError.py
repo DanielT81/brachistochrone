@@ -21,7 +21,7 @@ set_start_point = aarr([0,10]) #the set start point for the computation
 set_end_point = aarr([10,0]) #the set end point for the computation
 arr[0] = set_start_point
 arr[1] = set_end_point
-all_points = np.array([np.linspace(set_start_point[0], set_end_point[0], ATP), np.linspace(set_start_point[1], set_end_point[1], ATP)])
+all_points = np.array([np.linspace(set_start_point[0], set_end_point[0], ATP), np.linspace(set_start_point[1], set_end_point[1], ATP)]).T
 print(all_points)
 
 
@@ -89,16 +89,15 @@ def physics(start_vel, def_vec, *debugger) -> np.array: # function that calculat
 
 
     #
-def calc_arr_time0(def_vel, start_point, end_point) -> None: # function that calculates the first and second row of
+def calc_arr_time0(def_vel, def_start_point, def_end_point) -> None: # function that calculates the first and second row of
     def_vel = def_vel
-    start_point, end_point = start_point, end_point
-    def_mid_point = mid_point(start_point, end_point)
-    def_vec = vec(start_point, end_point)
+    def_mid_point = mid_point(def_start_point, def_end_point)
+    def_vec = vec(def_start_point, def_end_point)
     #print(f'def_vec = {def_vec} \n start_point = {start_point} \n end_point ? {end_point}')
     def_norm_vec = norm_vec(def_vec)
     new_point = def_mid_point
-    def_time1, def_vel1 = physics(def_vel, vec(start_point, new_point))
-    def_time2, def_vel2 = physics(def_vel1, vec(new_point, end_point))
+    def_time1, def_vel1 = physics(def_vel, vec(def_start_point, new_point))
+    def_time2, def_vel2 = physics(def_vel1, vec(new_point, def_end_point))
     arr_time[0] = [def_vel, # start velocity
                    start_point, # start point
                    end_point, # end point
@@ -136,6 +135,45 @@ def calc_arr_time2(def_index) -> None: # function that calculates the third row 
 
 
     #
+
+
+
+def calc_total_time(def_arr, def_arr_len) -> float:
+    def_total_time = 0
+    def_total_velocity = 0
+    for i in range(def_arr_len-1):
+        print(def_arr[i], def_arr[i+1])
+        (def_partial_time, def_partial_velocity) = physics(def_total_velocity, vec(def_arr[i], def_arr[i+1]))
+        def_total_time += def_partial_time
+        def_total_velocity = def_partial_velocity
+    return(np.array([def_total_time, def_total_velocity], dtype=object))
+
+print( '\n' * 5, calc_total_time(all_points, ATP), '\n' * 5)
+
+
+def move_random_point(def_name1: np.ndarray, def_name2: np.ndarray) -> None:
+    def_index = np.random.randint(1, ATP - 1)
+    def_old_point = def_name1[def_index]
+    def_vec = vec(def_name1[def_index-1], def_name1[def_index+1])
+    def_norm_vec = normal_vec(def_vec)
+    def_new_point = def_old_point + def_norm_vec * 0.001 * np.random.choice([1,-1])
+    def_name2[def_index] = def_new_point
+
+
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
 def optimizing() -> np.ndarray: # function that optimizes arr_time[1]
     global changes
     global sign

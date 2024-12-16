@@ -68,6 +68,7 @@ def physics(start_vel, def_vec, *debugger) -> np.array: # function that calculat
     a_coefficient = ((-0.5) * g * acceleration_angle_factor * (delta_y / sqrt(delta_y ** 2)))  # - (1/2 * 0.1 (air drag coefficient) * area of the object * velocity**2)
     b_coefficient = start_vel
     c_coefficient = delta_s
+    print(f'a: {a_coefficient}, b: {b_coefficient}, c: {c_coefficient}')
     possible_time_arr = np.roots([a_coefficient, b_coefficient, c_coefficient])
     if type(possible_time_arr[0]) == np.complex128 or type(possible_time_arr[1]) == np.complex128:
         print('physics: problem with the imaginary unity',  debugger)
@@ -192,11 +193,16 @@ optimizing_factor = np.dot(global_vec, global_vec) * 0.0001 # the global factor 
 (time2, vel2) = physics(0, aarr(vec([0,10],[5,5])))
 (time3, vel3) = physics(vel2, aarr(vec([5,5],[10,0]))) - aarr([0, vel2])
 (time4, vel4) = (time2 + time3, vel2 + vel3)
+'''
 
 
-
+vecc = np.array([10,-10])
+vell = -sqrt(sqr(vecc[0]) + sqr(vecc[1]))
+print(f'\n\n\nphysics of {vecc} = {physics(vell,vecc)}\n\n\n')
+'''
 print(f'time 1: {time1} \n vel 1: {vel1} \n \n time 2: {time2} \n vel 2: {vel2} ')
 print(f'\n  time 3: {time3} \n vel 3: {vel3} \n \n time 4: {time4} \n vel 4: {vel4}')
+'''
 #first_layer()
 #x = arr[:,0]
 #y = arr[:,1]
@@ -208,6 +214,7 @@ print(f'\n  time 3: {time3} \n vel 3: {vel3} \n \n time 4: {time4} \n vel 4: {ve
 #plt.title('Plot von n x 2 Array')  # Titel des Plots
 #plt.grid(True)  # Gitterlinien anzeigen
 #plt.show()
+'''
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
 print(f"\n \n Elapsed time: {elapsed_time} seconds")
