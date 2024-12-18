@@ -123,7 +123,7 @@ def loop(def_iterations: int or float) -> None:
 	global arr_time
 	global new_arr
 	for def_iteration in range(def_iterations):
-		new_arr = arr
+		new_arr = np.array(arr, copy=True)
 		plot('before move_random_point')
 		move_random_point()
 		plot('after move_random_point')
