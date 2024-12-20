@@ -135,7 +135,7 @@ def loop() -> None: # loop that creates the new points and compares whether they
 			waiting += 1
 	print(f'the safeguard is: {safeguard}')
 	print(f'the amount of total iterations is: {total_iterations}')
-	print(f'the time for the optimized points ist_ {arr_time}')
+	print(f'the time for the optimized points is: {arr_time} second')
 
 
 
