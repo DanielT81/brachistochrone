@@ -63,6 +63,7 @@ def plot(good_or_bad):
 	#		plt.title('Plot von dem Scheiß, aber schlecht')
 	#		print('\n' * 5, 'GUUUT')
 	plt.title(good_or_bad)
+	plt.axis((-1,11,-1,11))
 	plt.grid(True)
 	plt.show()
 def physics(def_start_vel: float, def_start_point: np.ndarray, def_end_point: np.ndarray, *debugger) -> np.ndarray: # function that calculates the time taken
@@ -155,7 +156,7 @@ arr_time = calc_arr_time(arr) # the (yet initial) time take for the points in ar
 new_arr = arr # array with the random change to compare the time with
 
 r = 5 / 0.87248  # radius of the cycloids wheel for comparison
-t = np.linspace(0, np.pi, 1000)  # parameter t, range for several cycles
+t = np.linspace(-1, np.pi, 1000)  # parameter t, range for several cycles
 
 
 
