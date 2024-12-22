@@ -9,7 +9,7 @@ start_time = time.perf_counter()  # to track the computation-time
 '''set the start and end points of the calculation'''
 set_start_point = aarr([0,10]) # the set start point for the computation
 set_end_point = aarr([10,0]) # the set end point for the computation
-amount_of_total_points = 20 # amount of total points in the system
+amount_of_total_points = 10 # amount of total points in the system
 precision_value = 15 # the precision value for the calculation
 
 
@@ -41,31 +41,6 @@ def cycloid(r, t):
 	x = r * (t - np.sin(t))
 	y = r * (1 - np.cos(t))
 	return x, -y + 10
-def plot(good_or_bad):
-	x = arr[:,0]
-	y = arr[:,1]
-	x_c, y_c = cycloid(r,t)
-	plt.plot(x_c, y_c, label='cycloid_graph')
-
-
-	new_x = new_arr[:,0]
-	new_y = new_arr[:,1]
-	plt.plot(x, y, label='graph', marker='o')
-	#plt.plot(new_x, new_y, label='new_graph', marker='x')
-	plt.plot(initial_x_values, initial_y_values, label='initial line', marker='o')
-	plt.xlabel('X')
-	plt.ylabel('Y')
-	#if good_or_bad:
-	#	if good_or_bad == 1:
-	#		plt.title('Plot von dem Scheiß, aber gut')
-	#		print('\n' * 5, 'GUUUT')
-	#	if good_or_bad == 2:
-	#		plt.title('Plot von dem Scheiß, aber schlecht')
-	#		print('\n' * 5, 'GUUUT')
-	plt.title(good_or_bad)
-	plt.axis((-1,11,-1,11))
-	plt.grid(True)
-	plt.show()
 def physics(def_start_vel: float, def_start_point: np.ndarray, def_end_point: np.ndarray, *debugger) -> np.ndarray: # function that calculates the time taken
 	# for a point to roll down a vector
 	if debugger:
@@ -163,6 +138,43 @@ t = np.linspace(-1, np.pi, 1000)  # parameter t, range for several cycles
 '''running the function'''
 print('\n' * 5)
 loop()
+
+
+
+'''approximating a polynomial to the points in the array'''
+arrT = arr.T
+x_data = arrT[0]
+y_data = arrT[1]
+x = arr[:, 0]
+y = arr[:, 1]
+
+
+degree = 5 # amount_of_total_points
+coeffs = np.polyfit(x_data, y_data, degree)
+
+print(coeffs)
+
+poly = np.poly1d(coeffs)
+x_smooth = np.linspace(min(x_data), max(x_data), 500)
+y_smooth = poly(x_smooth)
+
+
+x_c, y_c = cycloid(r, t)
+plt.plot(x_c, y_c, label='cycloid_graph')
+
+#plt.plot(x, y, label='graph', marker='o')
+plt.plot(initial_x_values, initial_y_values, label='initial line')
+
+# Plot the original data and the polynomial approximation
+plt.scatter(x_data, y_data, color='red', label='Data points')
+plt.plot(x_smooth, y_smooth, label=f'Polynomial fit (degree {degree})', color='blue')
+plt.legend()
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.axis((-1, 11, -1, 11))
+plt.grid(True)
+plt.show()
+
 
 
 
